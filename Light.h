@@ -3,14 +3,14 @@
 #define Light_h
 
 
-#include "Scheduler.h"
+#include "SchedulerTemplate.h"
 
 
 class Light {
 
   int m_ledPin;
   bool m_isLedOn = false;
-  Scheduler m_scheduler;
+  SchedulerTemplate<Light> m_scheduler;
   
 public:
   Light(int pin);
@@ -21,7 +21,7 @@ public:
   void toggle();
   
 private:
-  static void togglePulse(void *light);
+  static void togglePulse(Light *light);
   void setLedOn();
   void setLedOff();
   

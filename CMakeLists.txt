@@ -20,6 +20,7 @@ set(SOURCE_FILES
     PedestrianTrafficLight.h
     Scheduler.cpp
     Scheduler.h
+    SchedulerTemplate.h
     TrafficLightBase.cpp
     TrafficLightBase.h
     VehicleTrafficLight.cpp

@@ -24,7 +24,7 @@ public:
 
 protected:
   
-  void switchState(Callback callback) override;
+  void switchState(Callback<> callback) override;
   
   
 private:
@@ -35,7 +35,7 @@ private:
   void setNight();
   
    
-  void runStopSequenceAnimation(Callback doneCallback);
+  void runStopSequenceAnimation(Callback<> doneCallback);
 
   
 };

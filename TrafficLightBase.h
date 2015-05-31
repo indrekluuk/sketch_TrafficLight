@@ -4,7 +4,7 @@
 
 
 #include "Animator.h"
-#include "Scheduler.h"
+
 
 class TrafficLightBase {
   
@@ -26,17 +26,17 @@ public:
 
   void off();
   void forceStop();
-  void stop(Callback callback);
+  void stop(Callback<> callback);
   void go();
   void night();
 
 
 protected:
-  virtual void switchState(Callback callback) = 0;
+  virtual void switchState(Callback<> callback) = 0;
   void transitionEnded();
   
 private:
-  void transitionToState(State state, Callback callback);
+  void transitionToState(State state, Callback<> callback);
   
   
 };

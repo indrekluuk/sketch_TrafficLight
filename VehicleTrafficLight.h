@@ -23,7 +23,7 @@ public:
   VehicleTrafficLight(int redLedPin, int yellowLedPin, int greenLedPin);
 
 protected:
-  void switchState(Callback callback) override;
+  void switchState(Callback<> callback) override;
   
   
 private:
@@ -35,7 +35,7 @@ private:
   void setYellowPulsing();
 
 
-  void runStopSequenceAnimation(Callback doneCallback);
+  void runStopSequenceAnimation(Callback<> doneCallback);
 
  
   

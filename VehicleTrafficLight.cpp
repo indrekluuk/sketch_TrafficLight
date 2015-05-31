@@ -10,7 +10,7 @@ VehicleTrafficLight::VehicleTrafficLight(int redLedPin, int yellowLedPin, int gr
 
 
   
-void VehicleTrafficLight::switchState(Callback callback) {
+void VehicleTrafficLight::switchState(Callback<> callback) {
   m_animator.stopAnimation();
   
   switch (m_currentState) {
@@ -74,7 +74,8 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 
-void VehicleTrafficLight::runStopSequenceAnimation(Callback doneCallback) {
+void VehicleTrafficLight::runStopSequenceAnimation(Callback<> doneCallback) {
+    /*
   m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, doneCallback, [](void* pAnimator) {
     Animator<VehicleTrafficLight>::getThis(pAnimator)->setGreenPulsing();
     Animator<VehicleTrafficLight>::wait(pAnimator, VECHILE_STOP_GREEN_BLINK_ms, [](void* pAnimator) {
@@ -86,6 +87,7 @@ void VehicleTrafficLight::runStopSequenceAnimation(Callback doneCallback) {
       });
     });
   });
+     */
 }
 
 

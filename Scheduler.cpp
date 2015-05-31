@@ -1,14 +1,11 @@
 #include "Scheduler.h"
-#include "Callback.h"
-#include <Arduino.h>
+
 
 
 Scheduler* Scheduler::s_firstNode = nullptr;
 
 
-Scheduler::Scheduler() :
-        m_callback(nullptr, nullptr)
-{
+Scheduler::Scheduler() {
   link();
 }
 
@@ -34,7 +31,7 @@ void Scheduler::unlink() {
 
 Scheduler* Scheduler::getNodeBefore(Scheduler* node) {
   if ((s_firstNode == nullptr) || (s_firstNode == node)) return nullptr;
-  
+
   Scheduler* before = s_firstNode;
   while (before->m_nextNode != node) {
     before = before->m_nextNode;
@@ -43,22 +40,13 @@ Scheduler* Scheduler::getNodeBefore(Scheduler* node) {
 }
 
 
-void Scheduler::runOnce(unsigned long time_ms, Callback callback) {
-  initCallback(callback);
-  runOnce(time_ms);
-}
+
 
 
 void Scheduler::runOnce(unsigned long time_ms) {
   m_timer_ms = time_ms;
   m_previousTime_ms = millis();
   isRunOnce = true;
-}
-
-
-void Scheduler::runPeriodically(unsigned long time_ms, Callback callback) {
-  initCallback(callback);
-  runPeriodically(time_ms);
 }
 
 
@@ -69,22 +57,20 @@ void Scheduler::runPeriodically(unsigned long time_ms) {
 }
 
 
-void Scheduler::initCallback(Callback callback) {
-  m_callback = callback;
-}
-
-
 void Scheduler::clearTimer() {
   m_timer_ms = 0;
 }
 
 void Scheduler::run() {
   unsigned long current_time_ms = millis();
-  
+
   Scheduler* node = s_firstNode;
   while (node != nullptr) {
     if (node->isReady(current_time_ms)) {
-      node->callback();
+        if (node->isRunOnce) {
+            node->clearTimer();
+        }
+        node->call();
     }
     node = node->m_nextNode;
   }
@@ -105,12 +91,6 @@ bool Scheduler::isReady(const unsigned long& current_time_ms) {
 }
 
 
-void Scheduler::callback() {
-  if (isRunOnce) {
-    clearTimer();
-  }
-  m_callback.call();
-}
 
 
 

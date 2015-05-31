@@ -3,14 +3,16 @@
 #define Callback_h
 
 
+template <class TCallbackObject = void*>
 class Callback {
 
 public:
-  typedef void(CallbackFn)(void*);
-  
+  typedef void(CallbackFn)(TCallbackObject*);
+
+
 private:
 
-  void* m_callbackObj;
+  TCallbackObject* m_callbackObj;
   CallbackFn* m_callbackFn;
   
 public:
@@ -23,9 +25,10 @@ public:
           m_callbackObj(nullptr), m_callbackFn(callbackFn)
   {}
 
-  Callback(void* callbackObj, CallbackFn* callbackFn) :
+  Callback(TCallbackObject* callbackObj, CallbackFn* callbackFn) :
           m_callbackObj(callbackObj), m_callbackFn(callbackFn)
   {}
+
 
   bool isInitialized() {
     return m_callbackFn != nullptr;
