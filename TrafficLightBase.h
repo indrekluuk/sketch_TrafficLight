@@ -34,6 +34,9 @@ public:
     void night();
 
 
+    virtual void stopAnimation() = 0;
+
+
 protected:
     virtual void switchState(Callback<> callback) = 0;
 

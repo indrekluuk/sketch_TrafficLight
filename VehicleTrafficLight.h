@@ -21,6 +21,8 @@ public:
 
     VehicleTrafficLight(int redLedPin, int yellowLedPin, int greenLedPin);
 
+    void stopAnimation();
+
 protected:
     void switchState(Callback<> callback) override;
 

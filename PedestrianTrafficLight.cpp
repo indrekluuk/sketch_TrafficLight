@@ -9,7 +9,7 @@ PedestrianTrafficLight::PedestrianTrafficLight(int redLedPin, int greenLedPin) :
 
 
 void PedestrianTrafficLight::switchState(Callback<> callback) {
-    m_animator.stopAnimation();
+    stopAnimation();
 
     switch (m_currentState) {
         default:
@@ -29,6 +29,11 @@ void PedestrianTrafficLight::switchState(Callback<> callback) {
             break;
     }
 
+}
+
+
+void PedestrianTrafficLight::stopAnimation() {
+    m_animator.stopAnimation();
 }
 
 

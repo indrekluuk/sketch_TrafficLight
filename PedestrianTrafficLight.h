@@ -21,10 +21,11 @@ public:
 
     PedestrianTrafficLight(int redLedPin, int greenLedPin);
 
+    void stopAnimation();
+
 protected:
 
     void switchState(Callback<> callback) override;
-
 
 private:
     void allLightsOff();

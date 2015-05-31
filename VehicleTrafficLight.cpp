@@ -9,7 +9,7 @@ VehicleTrafficLight::VehicleTrafficLight(int redLedPin, int yellowLedPin, int gr
 
 
 void VehicleTrafficLight::switchState(Callback<> callback) {
-    m_animator.stopAnimation();
+    stopAnimation();
 
     switch (m_currentState) {
         default:
@@ -31,6 +31,14 @@ void VehicleTrafficLight::switchState(Callback<> callback) {
             break;
     }
 }
+
+
+
+void VehicleTrafficLight::stopAnimation() {
+    m_animator.stopAnimation();
+}
+
+
 
 
 void VehicleTrafficLight::allLightsOff() {
