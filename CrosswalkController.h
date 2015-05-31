@@ -30,9 +30,13 @@ public:
 private:
 
   void runPedestrianButtonCycleAnimation();
-  static void vehicleTrafficLightStopped(void* controller);
+  static void animate_buttonCycle_1(Animator<CrosswalkController>* pAnimator);
+  static void animate_buttonCycle_2(Animator<CrosswalkController>* pAnimator);
+  static void animate_buttonCycle_3(Animator<CrosswalkController>* pAnimator);
+  static void animate_buttonCycle_4(Animator<CrosswalkController>* pAnimator);
+  static void animate_buttonCycle_5(Animator<CrosswalkController>* pAnimator);
+  static void animate_buttonCycle_6(Animator<CrosswalkController>* pAnimator);
 
-  
 };
 
 

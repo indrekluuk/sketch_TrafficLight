@@ -74,12 +74,14 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 
+
+
 void VehicleTrafficLight::runStopSequenceAnimation(Callback<> doneCallback) {
     m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, doneCallback, [](Animator<VehicleTrafficLight>* pAnimator) {
         pAnimator->getThis()->setGreenPulsing();
-        pAnimator->wait(pAnimator, VECHILE_STOP_GREEN_BLINK_ms, [](Animator<VehicleTrafficLight>* pAnimator) {
+        pAnimator->wait(VECHILE_STOP_GREEN_BLINK_ms, [](Animator<VehicleTrafficLight>* pAnimator) {
             pAnimator->getThis()->setYellow();
-            pAnimator->wait(pAnimator, VECHILE_STOP_YELLOW_ms, [](Animator<VehicleTrafficLight>* pAnimator) {
+            pAnimator->wait(VECHILE_STOP_YELLOW_ms, [](Animator<VehicleTrafficLight>* pAnimator) {
                 pAnimator->getThis()->setRed();
                 pAnimator->getThis()->transitionEnded();
                 pAnimator->animationDone(pAnimator);

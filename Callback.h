@@ -30,6 +30,12 @@ public:
   {}
 
 
+  void reinit(TCallbackObject* callbackObj, CallbackFn* callbackFn) {
+    m_callbackObj = callbackObj;
+    m_callbackFn = callbackFn;
+  }
+
+
   bool isInitialized() {
     return m_callbackFn != nullptr;
   }

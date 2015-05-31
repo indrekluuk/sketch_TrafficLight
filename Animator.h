@@ -17,6 +17,7 @@ class Animator {
   SchedulerTemplate<Animator> m_animationScheduler;
   int m_animationIdentifier = ANIMATION_STOPPED;
   Callback<> m_animationDoneCallback;
+  Callback<Animator> delayedResponseCallback;
   
 public:
 
@@ -27,7 +28,10 @@ public:
   bool isAnimation(int animationIdentifier);
   void stopAnimation();
 
-  static void wait(Animator *pAnimator, unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) ;
+  void wait(unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) ;
+  Callback<> waitForResponse(AnimatorCallbackFn* animationNextCallbackFn);
+  static void callDelayedResponse(void* pDelayedResponseCallback);
+
   TAnimatedObj* getThis();
 
   static void animationDone(void *pAnimator);
@@ -74,9 +78,22 @@ void Animator<TAnimatedObj>::startAnimation(int animationIdentifier, Callback<> 
 }
 
 template<class TAnimatedObj>
-void Animator<TAnimatedObj>::wait(Animator* pAnimator, unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) {
-  pAnimator->m_animationScheduler.runOnceWithCallback(time_ms, Callback<Animator>(pAnimator, animationNextCallbackFn));
+void Animator<TAnimatedObj>::wait(unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) {
+  m_animationScheduler.runOnceWithCallback(time_ms, Callback<Animator>(this, animationNextCallbackFn));
 }
+
+
+template<class TAnimatedObj>
+Callback<> Animator<TAnimatedObj>::waitForResponse(AnimatorCallbackFn* animationNextCallbackFn) {
+  delayedResponseCallback.reinit(this, animationNextCallbackFn);
+  return Callback<>(&delayedResponseCallback, callDelayedResponse);
+}
+
+template<class TAnimatedObj>
+void Animator<TAnimatedObj>::callDelayedResponse(void* pDelayedResponseCallback) {
+  ((Callback<Animator>*)pDelayedResponseCallback)->call();
+}
+
 
 
 template<class TAnimatedObj>
