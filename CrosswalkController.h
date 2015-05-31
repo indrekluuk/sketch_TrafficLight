@@ -11,6 +11,7 @@ class CrosswalkController : public Animatable {
   
   VehicleTrafficLight m_vehicleTrafficLight;
   PedestrianTrafficLight m_pedestrianTrafficLight;
+  bool buttonAnimationInProgress = false;
   
   
 public:
@@ -20,6 +21,8 @@ public:
   void on();
   void buttonPressed();
   void night();
+  
+  void stateChanged();
   
 private:
 

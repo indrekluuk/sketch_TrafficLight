@@ -10,24 +10,26 @@ CrosswalkController::CrosswalkController(int red1, int yellow1, int green1, int 
 
 
 void CrosswalkController::off() {
-  stopCurrentAnimation();
+  stateChanged();
   m_vehicleTrafficLight.off();
   m_pedestrianTrafficLight.off();
 }
   
 void CrosswalkController::on() {
-  stopCurrentAnimation();
+  stateChanged();
   m_vehicleTrafficLight.go();
   m_pedestrianTrafficLight.forceStop();
 }
   
 void CrosswalkController::buttonPressed() {
-  stopCurrentAnimation();
-  initPedestrianButtonCycle();
+  if (!buttonAnimationInProgress) {
+    stateChanged();
+    initPedestrianButtonCycle();
+  }  
 }
 
 void CrosswalkController::night() {
-  stopCurrentAnimation();
+  stateChanged();
   m_vehicleTrafficLight.night();
   m_pedestrianTrafficLight.night();
 }
@@ -35,8 +37,16 @@ void CrosswalkController::night() {
 
 
 
+void CrosswalkController::stateChanged() {
+  stopCurrentAnimation();
+  buttonAnimationInProgress = false;
+}
+
+
+
 
 void CrosswalkController::initPedestrianButtonCycle() {
+  buttonAnimationInProgress = true;
   initAnimationDoneCallback(nullptr, nullptr);
 
   m_pedestrianTrafficLight.forceStop();  
@@ -47,7 +57,8 @@ void CrosswalkController::initPedestrianButtonCycle() {
         ((CrosswalkController*)pThis)->m_pedestrianTrafficLight.stop(pThis, [](void* pThis) {
           animate(VECHILE_GO_DELAY_ms, pThis, [](void* pThis) {
             ((CrosswalkController*)pThis)->m_vehicleTrafficLight.go();
-            ((CrosswalkController*)pThis)->callAnimationDone();
+            ((CrosswalkController*)pThis)->animationDone();
+            ((CrosswalkController*)pThis)->buttonAnimationInProgress = false;
           });
         }); 
       });

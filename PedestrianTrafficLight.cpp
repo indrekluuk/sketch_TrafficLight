@@ -63,6 +63,6 @@ void PedestrianTrafficLight::initStopSequence(void* callbackObj, Scheduler::Call
   setGreenPulsing();
   animate(PEDESTRIAN_STOP_GREEN_BLINK_ms, this, [](void* pThis) {
     ((PedestrianTrafficLight*)pThis)->setRed();
-    ((PedestrianTrafficLight*)pThis)->callAnimationDone(); 
+    ((PedestrianTrafficLight*)pThis)->animationDone(); 
   });
 }

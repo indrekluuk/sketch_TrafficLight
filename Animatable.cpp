@@ -9,7 +9,7 @@ void Animatable::initAnimationDoneCallback(void* callbackObj, Scheduler::Callbac
   m_animationDoneCallbackObj = callbackObj;
 }
 
-void Animatable::callAnimationDone() {
+void Animatable::animationDone() {
   if (m_animationDoneCallbackFn != nullptr) {
     m_animationDoneCallbackFn(m_animationDoneCallbackObj);
   }

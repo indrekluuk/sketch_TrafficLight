@@ -17,7 +17,7 @@ class Animatable {
 protected:
   
   void initAnimationDoneCallback(void* callbackObj, Scheduler::CallbackFn* callbackFn);
-  virtual void callAnimationDone();
+  virtual void animationDone();
   void stopCurrentAnimation();
   static void animate(unsigned long time_ms, void* pThis, Scheduler::CallbackFn* callbackFn);
   

@@ -33,7 +33,7 @@ public:
 
 protected:
   virtual void switchState(void* callbackObj, Scheduler::CallbackFn* callbackFn) = 0;
-  void callAnimationDone() override;
+  void animationDone() override;
     
 private:
   void transitionToState(State state, void* callbackObj, Scheduler::CallbackFn* callbackFn);

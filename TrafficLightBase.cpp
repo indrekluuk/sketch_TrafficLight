@@ -33,9 +33,9 @@ void TrafficLightBase::transitionToState(State state, void* callbackObj, Schedul
 
 
 
-void TrafficLightBase::callAnimationDone() {
+void TrafficLightBase::animationDone() {
   transitionEnded();
-  Animatable::callAnimationDone();
+  Animatable::animationDone();
 }
 
 void TrafficLightBase::transitionEnded() {

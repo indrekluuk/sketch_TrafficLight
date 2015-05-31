@@ -81,7 +81,7 @@ void VehicleTrafficLight::initStopSequence(void* callbackObj, Scheduler::Callbac
     ((VehicleTrafficLight*)pThis)->setYellow();
     animate(VECHILE_STOP_YELLOW_ms, pThis, [](void* pThis) {
       ((VehicleTrafficLight*)pThis)->setRed();
-      ((VehicleTrafficLight*)pThis)->callAnimationDone();      
+      ((VehicleTrafficLight*)pThis)->animationDone();      
     });
   });
 }
