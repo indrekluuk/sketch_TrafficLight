@@ -26,9 +26,10 @@ public:
   void startAnimation(int animationIdentifier, Callback<> doneCallback, AnimatorCallbackFn* animationNextCallbackFn);
   bool isAnimation(int animationIdentifier);
   void stopAnimation();
-  
-  static void wait(void *pAnimator, unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) ;
-  static TAnimatedObj* getThis(void *pAnimator);
+
+  static void wait(Animator *pAnimator, unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) ;
+  TAnimatedObj* getThis();
+
   static void animationDone(void *pAnimator);
 
 private:
@@ -73,13 +74,14 @@ void Animator<TAnimatedObj>::startAnimation(int animationIdentifier, Callback<> 
 }
 
 template<class TAnimatedObj>
-void Animator<TAnimatedObj>::wait(void* pAnimator, unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) {
-  ((Animator*)pAnimator)->m_animationScheduler.runOnce(time_ms, Callback<Animator>(pAnimator, animationNextCallbackFn));
+void Animator<TAnimatedObj>::wait(Animator* pAnimator, unsigned long time_ms, AnimatorCallbackFn* animationNextCallbackFn) {
+  pAnimator->m_animationScheduler.runOnceWithCallback(time_ms, Callback<Animator>(pAnimator, animationNextCallbackFn));
 }
 
+
 template<class TAnimatedObj>
-TAnimatedObj* Animator<TAnimatedObj>::getThis(void *pAnimator) {
-    return &(((Animator*)pAnimator)->m_animatedObj);
+TAnimatedObj* Animator<TAnimatedObj>::getThis() {
+  return &m_animatedObj;
 }
 
 template<class TAnimatedObj>

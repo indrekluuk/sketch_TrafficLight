@@ -75,19 +75,17 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 void VehicleTrafficLight::runStopSequenceAnimation(Callback<> doneCallback) {
-    /*
-  m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, doneCallback, [](void* pAnimator) {
-    Animator<VehicleTrafficLight>::getThis(pAnimator)->setGreenPulsing();
-    Animator<VehicleTrafficLight>::wait(pAnimator, VECHILE_STOP_GREEN_BLINK_ms, [](void* pAnimator) {
-      Animator<VehicleTrafficLight>::getThis(pAnimator)->setYellow();
-      Animator<VehicleTrafficLight>::wait(pAnimator, VECHILE_STOP_YELLOW_ms, [](void* pAnimator) {
-        Animator<VehicleTrafficLight>::getThis(pAnimator)->setRed();
-        Animator<VehicleTrafficLight>::getThis(pAnimator)->transitionEnded();
-        Animator<VehicleTrafficLight>::animationDone(pAnimator);
-      });
+    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, doneCallback, [](Animator<VehicleTrafficLight>* pAnimator) {
+        pAnimator->getThis()->setGreenPulsing();
+        pAnimator->wait(pAnimator, VECHILE_STOP_GREEN_BLINK_ms, [](Animator<VehicleTrafficLight>* pAnimator) {
+            pAnimator->getThis()->setYellow();
+            pAnimator->wait(pAnimator, VECHILE_STOP_YELLOW_ms, [](Animator<VehicleTrafficLight>* pAnimator) {
+                pAnimator->getThis()->setRed();
+                pAnimator->getThis()->transitionEnded();
+                pAnimator->animationDone(pAnimator);
+            });
+        });
     });
-  });
-     */
 }
 
 

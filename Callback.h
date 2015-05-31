@@ -3,7 +3,7 @@
 #define Callback_h
 
 
-template <class TCallbackObject = void*>
+template <class TCallbackObject = void>
 class Callback {
 
 public:
