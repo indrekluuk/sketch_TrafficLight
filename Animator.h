@@ -5,29 +5,28 @@
 
 #include "Scheduler.h"
 
-template<class TAnimaObj>
+template<class TAnimatedObj>
 class Animator {
   
   static const int ANIMATION_STOPPED = 0;
 
-  TAnimaObj &m_animaObj;
+  TAnimatedObj &m_animatedObj;
 
   Scheduler m_animationScheduler;
-  int m_animatinIdentifier = ANIMATION_STOPPED;
-  Scheduler::CallbackFn* m_animationDoneCallbackFn = nullptr;
-  void* m_animationDoneCallbackObj = nullptr;
+  int m_animationIdentifier = ANIMATION_STOPPED;
+  Callback m_animationDoneCallback;
   
 public:
 
-  Animator(TAnimaObj &animaObj);
+  Animator(TAnimatedObj &animatedObj);
   
-  void startAnimation(int animatinIdentifier, Scheduler::CallbackFn* animationNextCallbackFn);
-  void startAnimation(int animatinIdentifier, void* doneCallbackObj, Scheduler::CallbackFn* doneCallbackFn, Scheduler::CallbackFn* animationNextCallbackFn);
+  void startAnimation(int animationIdentifier, Callback animationNextCallback);
+  void startAnimation(int animationIdentifier, Callback doneCallback, Callback animationNextCallback);
   bool isAnimation(int animationIdentifier);
   void stopAnimation();
   
-  static void wait(void *pAnimator, unsigned long time_ms, Scheduler::CallbackFn* animationNextCallbackFn);
-  static TAnimaObj* getThis(void *pAnimator);
+  static void wait(void *pAnimator, unsigned long time_ms, Callback animationNextCallback);
+  static TAnimatedObj* getThis(void *pAnimator);
   static void animationDone(void *pAnimator);
 
 private:
@@ -40,59 +39,56 @@ private:
 
 
 
-template<class TAnimaObj>
-Animator<TAnimaObj>::Animator(TAnimaObj &animaObj) :
-  m_animaObj(animaObj)
+template<class TAnimatedObj>
+Animator<TAnimatedObj>::Animator(TAnimatedObj &animatedObj) :
+        m_animationDoneCallback(nullptr, nullptr), m_animatedObj(animatedObj)
 {
 }
 
 
-template<class TAnimaObj>
-bool Animator<TAnimaObj>::isAnimation(int animationIdentifier) {
-  return animationIdentifier == m_animatinIdentifier;
+template<class TAnimatedObj>
+bool Animator<TAnimatedObj>::isAnimation(int animationIdentifier) {
+  return animationIdentifier == m_animationIdentifier;
 }
 
-template<class TAnimaObj>
-void Animator<TAnimaObj>::stopAnimation() {
-  m_animatinIdentifier = ANIMATION_STOPPED;
+template<class TAnimatedObj>
+void Animator<TAnimatedObj>::stopAnimation() {
+  m_animationIdentifier = ANIMATION_STOPPED;
   m_animationScheduler.clearTimer();
 }
 
 
-template<class TAnimaObj>
-void Animator<TAnimaObj>::startAnimation(int animatinIdentifier, Scheduler::CallbackFn* animationNextCallbackFn) {
-  startAnimation(animatinIdentifier, nullptr, nullptr, animationNextCallbackFn);
+template<class TAnimatedObj>
+void Animator<TAnimatedObj>::startAnimation(int animationIdentifier, Callback animationNextCallback) {
+  startAnimation(animationIdentifier, Callback(), animationNextCallback);
 }
   
-template<class TAnimaObj>
-void Animator<TAnimaObj>::startAnimation(int animatinIdentifier, void* doneCallbackObj, Scheduler::CallbackFn* doneCallbackFn, Scheduler::CallbackFn* animationNextCallbackFn) {
-  m_animatinIdentifier = animatinIdentifier;
-  m_animationDoneCallbackObj = doneCallbackObj;
-  m_animationDoneCallbackFn = doneCallbackFn;
-  animationNextCallbackFn(this);
+template<class TAnimatedObj>
+void Animator<TAnimatedObj>::startAnimation(int animationIdentifier, Callback doneCallback, Callback animationNextCallback) {
+  m_animationIdentifier = animationIdentifier;
+  m_animationDoneCallback = doneCallback;
+  animationNextCallback.call();
 }
 
-template<class TAnimaObj>
-void Animator<TAnimaObj>::wait(void *pAnimator, unsigned long time_ms, Scheduler::CallbackFn* callbackFn) {
-  ((Animator*)pAnimator)->m_animationScheduler.runOnce(time_ms, pAnimator, callbackFn);
+template<class TAnimatedObj>
+void Animator<TAnimatedObj>::wait(void *pAnimator, unsigned long time_ms, Callback animationNextCallback) {
+  ((Animator*)pAnimator)->m_animationScheduler.runOnce(time_ms, animationNextCallback);
 }
 
-template<class TAnimaObj>
-TAnimaObj* Animator<TAnimaObj>::getThis(void *pAnimator) {
-    return &(((Animator*)pAnimator)->m_animaObj);
+template<class TAnimatedObj>
+TAnimatedObj* Animator<TAnimatedObj>::getThis(void *pAnimator) {
+    return &(((Animator*)pAnimator)->m_animatedObj);
 }
 
-template<class TAnimaObj>
-void Animator<TAnimaObj>::animationDone(void *pAnimator) {
+template<class TAnimatedObj>
+void Animator<TAnimatedObj>::animationDone(void *pAnimator) {
   ((Animator*)pAnimator)->stopAnimation();
   ((Animator*)pAnimator)->callDoneCallback();
 }
 
-template<class TAnimaObj>
-void Animator<TAnimaObj>::callDoneCallback() {
-  if (m_animationDoneCallbackFn != nullptr) {
-    m_animationDoneCallbackFn(m_animationDoneCallbackObj);
-  }  
+template<class TAnimatedObj>
+void Animator<TAnimatedObj>::callDoneCallback() {
+  m_animationDoneCallback.call();
 }
   
 

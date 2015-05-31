@@ -26,17 +26,17 @@ public:
 
   void off();
   void forceStop();
-  void stop(void* callbackObj, Scheduler::CallbackFn* callbackFn);
+  void stop(Callback callback);
   void go();
   void night();
 
 
 protected:
-  virtual void switchState(void* callbackObj, Scheduler::CallbackFn* callbackFn) = 0;
+  virtual void switchState(Callback callback) = 0;
   void transitionEnded();
   
 private:
-  void transitionToState(State state, void* callbackObj, Scheduler::CallbackFn* callbackFn);
+  void transitionToState(State state, Callback callback);
   
   
 };

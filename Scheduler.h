@@ -3,19 +3,18 @@
 #define Scheduler_h
 
 
+#include "Callback.h"
+
+
 class Scheduler {
 
-public:
-  typedef void(CallbackFn)(void*);
-  
 private:
   static Scheduler* s_firstNode;
   Scheduler* m_nextNode = nullptr;
   
   unsigned long m_timer_ms = 0;
   unsigned long m_previousTime_ms = 0;
-  CallbackFn* m_callbackFn = nullptr;
-  void* m_callbackObj;
+  Callback m_callback;
   unsigned long isRunOnce = true;
   
   
@@ -24,10 +23,10 @@ public:
   Scheduler();
   virtual ~Scheduler();
 
-  void initCallback(void* callbackObj, CallbackFn* callbackFn);
-  void runPeriodically(unsigned long time_ms, void* callbackObj, CallbackFn* callbackFn);
+  void initCallback(Callback callback);
+  void runPeriodically(unsigned long time_ms, Callback callback);
   void runPeriodically(unsigned long time_ms);
-  void runOnce(unsigned long time_ms, void* callbackObj, CallbackFn* callbackFn);
+  void runOnce(unsigned long time_ms, Callback callback);
   void runOnce(unsigned long time_ms);
   void clearTimer();
   static void run();

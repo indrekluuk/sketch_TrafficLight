@@ -8,31 +8,31 @@ TrafficLightBase::TrafficLightBase()
 
 
 void TrafficLightBase::off() {
-  transitionToState(STATE_OFF, nullptr, nullptr);
+  transitionToState(STATE_OFF, Callback());
 }
   
 void TrafficLightBase::forceStop() {
-  transitionToState(STATE_STOP, nullptr, nullptr);
+  transitionToState(STATE_STOP,  Callback());
 }
 
-void TrafficLightBase::stop(void* callbackObj, Scheduler::CallbackFn* callbackFn) {
-  transitionToState(STATE_STOP, callbackObj, callbackFn);
+void TrafficLightBase::stop(Callback callback) {
+  transitionToState(STATE_STOP, callback);
 }
   
 void TrafficLightBase::go() {
-  transitionToState(STATE_GO, nullptr, nullptr);
+  transitionToState(STATE_GO, Callback());
 }
   
 void TrafficLightBase::night() {
-  transitionToState(STATE_NIGHT, nullptr, nullptr);
+  transitionToState(STATE_NIGHT, Callback());
 }
 
 
-void TrafficLightBase::transitionToState(State state, void* callbackObj, Scheduler::CallbackFn* callbackFn) {
+void TrafficLightBase::transitionToState(State state, Callback callback) {
   m_currentState = state;
   isInTransition = true;
-  switchState(callbackObj, callbackFn);
-  if (callbackFn == nullptr) {
+  switchState(callback);
+  if (!callback.isInitialized()) {
     transitionEnded();
   }
 }

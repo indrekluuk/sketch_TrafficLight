@@ -4,6 +4,7 @@
 
 
 #include "TrafficLightBase.h"
+#include "Callback.h"
 #include "Light.h"
 
 class PedestrianTrafficLight : public TrafficLightBase {
@@ -23,7 +24,7 @@ public:
 
 protected:
   
-  void switchState(void* callbackObj, Scheduler::CallbackFn* callbackFn) override;
+  void switchState(Callback callback) override;
   
   
 private:
@@ -34,7 +35,7 @@ private:
   void setNight();
   
    
-  void runStopSequenceAnimation(void* callbackObj, Scheduler::CallbackFn* callbackFn);
+  void runStopSequenceAnimation(Callback doneCallback);
 
   
 };

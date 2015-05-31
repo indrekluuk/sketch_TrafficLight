@@ -10,7 +10,7 @@ class Light {
 
   int m_ledPin;
   bool m_isLedOn = false;
-  Scheduler scheduler;
+  Scheduler m_scheduler;
   
 public:
   Light(int pin);

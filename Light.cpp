@@ -1,30 +1,30 @@
 #include "Light.h"
-#import <Arduino.h>
+#include <Arduino.h>
 
 
 Light::Light(int pin) : m_ledPin(pin) {
   pinMode(m_ledPin, OUTPUT);
   off();
-  
-  scheduler.initCallback(this, Light::togglePulse);
+
+  m_scheduler.initCallback(Callback(this, Light::togglePulse));
 }
 
 
 void Light::on() {
-  scheduler.clearTimer();
+  m_scheduler.clearTimer();
   setLedOn();
 }
   
   
 void Light::off() {
-  scheduler.clearTimer();
+  m_scheduler.clearTimer();
   setLedOff();
 }
 
 
 void Light::pulse() {
   setLedOn();
-  scheduler.runPeriodically(500);
+  m_scheduler.runPeriodically(500);
 }
 
 

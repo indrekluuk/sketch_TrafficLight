@@ -10,7 +10,7 @@ PedestrianTrafficLight::PedestrianTrafficLight(int redLedPin, int greenLedPin) :
 
 
 
-void PedestrianTrafficLight::switchState(void* callbackObj, Scheduler::CallbackFn* callbackFn) {
+void PedestrianTrafficLight::switchState(Callback callback) {
   m_animator.stopAnimation();
   
   switch (m_currentState) {
@@ -20,10 +20,10 @@ void PedestrianTrafficLight::switchState(void* callbackObj, Scheduler::CallbackF
             allLightsOff();
             break;
     case STATE_STOP: 
-            if (callbackFn == nullptr) {
-              setRed();
+            if (callback.isInitialized()) {
+                runStopSequenceAnimation(callback);
             } else {
-              runStopSequenceAnimation(callbackObj, callbackFn);
+                setRed();
             }
             break;
     case STATE_GO: 
@@ -58,15 +58,15 @@ void PedestrianTrafficLight::setGreenPulsing() {
 
 
 
-void PedestrianTrafficLight::runStopSequenceAnimation(void* callbackObj, Scheduler::CallbackFn* callbackFn) {
-  m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, callbackObj, callbackFn, [](void* pAnimator) {
+void PedestrianTrafficLight::runStopSequenceAnimation(Callback doneCallback) {
+  m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, doneCallback, Callback([](void* pAnimator) {
     Animator<PedestrianTrafficLight>::getThis(pAnimator)->setGreenPulsing();
-    Animator<PedestrianTrafficLight>::wait(pAnimator, PEDESTRIAN_STOP_GREEN_BLINK_ms, [](void* pAnimator) {
+    Animator<PedestrianTrafficLight>::wait(pAnimator, PEDESTRIAN_STOP_GREEN_BLINK_ms, Callback([](void* pAnimator) {
       Animator<PedestrianTrafficLight>::getThis(pAnimator)->setRed();
       Animator<PedestrianTrafficLight>::getThis(pAnimator)->transitionEnded(); 
       Animator<PedestrianTrafficLight>::animationDone(pAnimator);
-    });
-  });
+    }));
+  }));
 }
 
 

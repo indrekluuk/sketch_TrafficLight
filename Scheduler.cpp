@@ -1,11 +1,14 @@
 #include "Scheduler.h"
-#import <Arduino.h>
+#include "Callback.h"
+#include <Arduino.h>
 
 
 Scheduler* Scheduler::s_firstNode = nullptr;
 
 
-Scheduler::Scheduler() {
+Scheduler::Scheduler() :
+        m_callback(nullptr, nullptr)
+{
   link();
 }
 
@@ -40,8 +43,8 @@ Scheduler* Scheduler::getNodeBefore(Scheduler* node) {
 }
 
 
-void Scheduler::runOnce(unsigned long time_ms, void* callbackObj, CallbackFn* callbackFn) {
-  initCallback(callbackObj, callbackFn);
+void Scheduler::runOnce(unsigned long time_ms, Callback callback) {
+  initCallback(callback);
   runOnce(time_ms);
 }
 
@@ -53,8 +56,8 @@ void Scheduler::runOnce(unsigned long time_ms) {
 }
 
 
-void Scheduler::runPeriodically(unsigned long time_ms, void* callbackObj, CallbackFn* callbackFn) {
-  initCallback(callbackObj, callbackFn);
+void Scheduler::runPeriodically(unsigned long time_ms, Callback callback) {
+  initCallback(callback);
   runPeriodically(time_ms);
 }
 
@@ -66,9 +69,8 @@ void Scheduler::runPeriodically(unsigned long time_ms) {
 }
 
 
-void Scheduler::initCallback(void* callbackObj, CallbackFn* callbackFn) {  
-  m_callbackFn = callbackFn;
-  m_callbackObj = callbackObj;
+void Scheduler::initCallback(Callback callback) {
+  m_callback = callback;
 }
 
 
@@ -107,7 +109,7 @@ void Scheduler::callback() {
   if (isRunOnce) {
     clearTimer();
   }
-  m_callbackFn(m_callbackObj);
+  m_callback.call();
 }
 
 
