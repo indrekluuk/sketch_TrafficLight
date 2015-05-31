@@ -2,16 +2,18 @@
 #ifndef CrosswalkController_h
 #define CrosswalkController_h
 
-#include "Animatable.h"
+#include "Animator.h"
 #include "VehicleTrafficLight.h"
 #include "PedestrianTrafficLight.h"
 
 
-class CrosswalkController : public Animatable {
+class CrosswalkController {
+
+  static const int ANIMATION_BUTTON_PRESSED = 1;
   
   VehicleTrafficLight m_vehicleTrafficLight;
   PedestrianTrafficLight m_pedestrianTrafficLight;
-  bool buttonAnimationInProgress = false;
+  Animator animator;
   
   
 public:

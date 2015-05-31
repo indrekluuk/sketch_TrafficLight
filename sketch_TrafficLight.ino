@@ -23,6 +23,7 @@ boolean switchState = false;
 
 
 void setup() {
+  Serial.begin(9600);
   switchState = getSwitchState();
 }
 
@@ -35,6 +36,7 @@ void loop() {
   }
 
   if (state != previousState) {  
+    Serial.println("Oleku muutus");
     previousState = state;
     switch (state) {
       case 0:

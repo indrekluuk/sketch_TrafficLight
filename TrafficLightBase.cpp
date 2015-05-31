@@ -1,5 +1,13 @@
 #include "TrafficLightBase.h"
 
+
+TrafficLightBase::TrafficLightBase() :
+  animator(this)
+{
+}
+
+
+
 void TrafficLightBase::off() {
   transitionToState(STATE_OFF, nullptr, nullptr);
 }
@@ -22,7 +30,7 @@ void TrafficLightBase::night() {
 
 
 void TrafficLightBase::transitionToState(State state, void* callbackObj, Scheduler::CallbackFn* callbackFn) {
-  stopCurrentAnimation();
+  animator.stopAnimation();
   m_currentState = state;
   isInTransition = true;
   switchState(callbackObj, callbackFn);
@@ -32,11 +40,6 @@ void TrafficLightBase::transitionToState(State state, void* callbackObj, Schedul
 }
 
 
-
-void TrafficLightBase::animationDone() {
-  transitionEnded();
-  Animatable::animationDone();
-}
 
 void TrafficLightBase::transitionEnded() {
   isInTransition = false;

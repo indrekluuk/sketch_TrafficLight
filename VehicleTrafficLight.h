@@ -8,6 +8,9 @@
 
 class VehicleTrafficLight : public TrafficLightBase {
 
+  static const int ANIMATION_STOP_TRAFFIC = 1;
+  
+  
   Light m_redLight;
   Light m_yellowLight;
   Light m_greenLight;

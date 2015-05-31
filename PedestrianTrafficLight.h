@@ -8,6 +8,9 @@
 
 class PedestrianTrafficLight : public TrafficLightBase {
 
+  static const int ANIMATION_STOP_PEDESTRIANS = 1;
+  
+  
   Light m_redLight;
   Light m_greenLight;
   

@@ -58,11 +58,16 @@ void PedestrianTrafficLight::setGreenPulsing() {
 
 
 void PedestrianTrafficLight::initStopSequence(void* callbackObj, Scheduler::CallbackFn* callbackFn) {
-  initAnimationDoneCallback(callbackObj, callbackFn);
-  
-  setGreenPulsing();
-  animate(PEDESTRIAN_STOP_GREEN_BLINK_ms, this, [](void* pThis) {
-    ((PedestrianTrafficLight*)pThis)->setRed();
-    ((PedestrianTrafficLight*)pThis)->animationDone(); 
+  animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, callbackObj, callbackFn, [](void* pAnimator) {
+    ((PedestrianTrafficLight*)Animator::getThis(pAnimator))->setGreenPulsing();
+    Animator::wait(pAnimator, PEDESTRIAN_STOP_GREEN_BLINK_ms, [](void* pAnimator) {
+      ((PedestrianTrafficLight*)Animator::getThis(pAnimator))->setRed();
+      ((PedestrianTrafficLight*)Animator::getThis(pAnimator))->transitionEnded(); 
+      Animator::animationDone(pAnimator);
+    });
   });
 }
+
+
+
+

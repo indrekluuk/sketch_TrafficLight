@@ -3,10 +3,10 @@
 #define TrafficLightBase_h
 
 
-#include "Animatable.h"
+#include "Animator.h"
 #include "Scheduler.h"
 
-class TrafficLightBase : public Animatable {
+class TrafficLightBase {
   
 protected:
   enum State {
@@ -19,10 +19,13 @@ protected:
   State m_currentState = STATE_OFF;
   bool isInTransition = false;
   
-  
+  Animator animator;
    
   
 public:
+
+
+  TrafficLightBase();
 
   void off();
   void forceStop();
@@ -33,11 +36,11 @@ public:
 
 protected:
   virtual void switchState(void* callbackObj, Scheduler::CallbackFn* callbackFn) = 0;
-  void animationDone() override;
-    
+  void transitionEnded();
+  
 private:
   void transitionToState(State state, void* callbackObj, Scheduler::CallbackFn* callbackFn);
-  void transitionEnded();
+  
   
 };
 
