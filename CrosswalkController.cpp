@@ -45,7 +45,7 @@ void CrosswalkController::stateChanged() {
 
 
 void CrosswalkController::runPedestrianButtonCycleAnimation() {
-  m_animator.startAnimation(ANIMATION_BUTTON_PRESSED, Callback([](void* pAnimator) {
+  m_animator.startAnimation(ANIMATION_BUTTON_PRESSED, Callback(&m_animator, [](void* pAnimator) {
     Animator<CrosswalkController>::getThis(pAnimator)->m_pedestrianTrafficLight.forceStop();
     Animator<CrosswalkController>::getThis(pAnimator)->m_vehicleTrafficLight.stop(Callback(pAnimator, [](void* pAnimator) {
       Animator<CrosswalkController>::wait(pAnimator, PEDESTRIAN_GO_DELAY_ms, Callback([](void* pAnimator) {

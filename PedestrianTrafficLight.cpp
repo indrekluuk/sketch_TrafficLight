@@ -59,7 +59,7 @@ void PedestrianTrafficLight::setGreenPulsing() {
 
 
 void PedestrianTrafficLight::runStopSequenceAnimation(Callback doneCallback) {
-  m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, doneCallback, Callback([](void* pAnimator) {
+  m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, doneCallback, Callback(&m_animator, [](void* pAnimator) {
     Animator<PedestrianTrafficLight>::getThis(pAnimator)->setGreenPulsing();
     Animator<PedestrianTrafficLight>::wait(pAnimator, PEDESTRIAN_STOP_GREEN_BLINK_ms, Callback([](void* pAnimator) {
       Animator<PedestrianTrafficLight>::getThis(pAnimator)->setRed();
