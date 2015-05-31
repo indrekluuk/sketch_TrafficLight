@@ -13,7 +13,8 @@ class CrosswalkController {
   
   VehicleTrafficLight m_vehicleTrafficLight;
   PedestrianTrafficLight m_pedestrianTrafficLight;
-  Animator animator;
+  
+  Animator<CrosswalkController> m_animator;
   
   
 public:
@@ -28,7 +29,7 @@ public:
   
 private:
 
-  void initPedestrianButtonCycle();
+  void runPedestrianButtonCycleAnimation();
   static void vehicleTrafficLightStopped(void* controller);
 
   

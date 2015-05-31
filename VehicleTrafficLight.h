@@ -15,6 +15,7 @@ class VehicleTrafficLight : public TrafficLightBase {
   Light m_yellowLight;
   Light m_greenLight;
   
+  Animator<VehicleTrafficLight> m_animator;
 
   
 public:
@@ -34,7 +35,7 @@ private:
   void setYellowPulsing();
 
 
-  void initStopSequence( void* callbackObj, Scheduler::CallbackFn* callbackFn);
+  void runStopSequenceAnimation( void* callbackObj, Scheduler::CallbackFn* callbackFn);
 
  
   

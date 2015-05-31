@@ -3,7 +3,7 @@
 
 
 CrosswalkController::CrosswalkController(int red1, int yellow1, int green1, int red2, int green2) :
-  animator(this), m_vehicleTrafficLight(red1, yellow1, green1), m_pedestrianTrafficLight(red2, green2)
+  m_animator(*this), m_vehicleTrafficLight(red1, yellow1, green1), m_pedestrianTrafficLight(red2, green2)
 {
 }
 
@@ -22,9 +22,9 @@ void CrosswalkController::on() {
 }
   
 void CrosswalkController::buttonPressed() {
-  if (!animator.isAnimation(ANIMATION_BUTTON_PRESSED)) {
+  if (!m_animator.isAnimation(ANIMATION_BUTTON_PRESSED)) {
     stateChanged();
-    initPedestrianButtonCycle();
+    runPedestrianButtonCycleAnimation();
   }  
 }
 
@@ -38,23 +38,23 @@ void CrosswalkController::night() {
 
 
 void CrosswalkController::stateChanged() {
-  animator.stopAnimation();
+  m_animator.stopAnimation();
 }
 
 
 
 
-void CrosswalkController::initPedestrianButtonCycle() {
-  animator.startAnimation(ANIMATION_BUTTON_PRESSED, [](void* pAnimator) {    
-    ((CrosswalkController*)Animator::getThis(pAnimator))->m_pedestrianTrafficLight.forceStop();
-    ((CrosswalkController*)Animator::getThis(pAnimator))->m_vehicleTrafficLight.stop(pAnimator, [](void* pAnimator) {
-      Animator::wait(pAnimator, PEDESTRIAN_GO_DELAY_ms, [](void* pAnimator) {
-        ((CrosswalkController*)Animator::getThis(pAnimator))->m_pedestrianTrafficLight.go();      
-        Animator::wait(pAnimator, PEDESTRIAN_GO_GREEN_ms, [](void* pAnimator) {
-          ((CrosswalkController*)Animator::getThis(pAnimator))->m_pedestrianTrafficLight.stop(pAnimator, [](void* pAnimator) {
-            Animator::wait(pAnimator, VECHILE_GO_DELAY_ms, [](void* pAnimator) {
-              ((CrosswalkController*)Animator::getThis(pAnimator))->m_vehicleTrafficLight.go();
-              Animator::animationDone(pAnimator);
+void CrosswalkController::runPedestrianButtonCycleAnimation() {
+  m_animator.startAnimation(ANIMATION_BUTTON_PRESSED, [](void* pAnimator) {    
+    Animator<CrosswalkController>::getThis(pAnimator)->m_pedestrianTrafficLight.forceStop();
+    Animator<CrosswalkController>::getThis(pAnimator)->m_vehicleTrafficLight.stop(pAnimator, [](void* pAnimator) {
+      Animator<CrosswalkController>::wait(pAnimator, PEDESTRIAN_GO_DELAY_ms, [](void* pAnimator) {
+        Animator<CrosswalkController>::getThis(pAnimator)->m_pedestrianTrafficLight.go();      
+        Animator<CrosswalkController>::wait(pAnimator, PEDESTRIAN_GO_GREEN_ms, [](void* pAnimator) {
+          Animator<CrosswalkController>::getThis(pAnimator)->m_pedestrianTrafficLight.stop(pAnimator, [](void* pAnimator) {
+            Animator<CrosswalkController>::wait(pAnimator, VECHILE_GO_DELAY_ms, [](void* pAnimator) {
+              Animator<CrosswalkController>::getThis(pAnimator)->m_vehicleTrafficLight.go();
+              Animator<CrosswalkController>::animationDone(pAnimator);
             });
           }); 
         });

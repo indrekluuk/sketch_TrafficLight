@@ -1,8 +1,7 @@
 #include "TrafficLightBase.h"
 
 
-TrafficLightBase::TrafficLightBase() :
-  animator(this)
+TrafficLightBase::TrafficLightBase()
 {
 }
 
@@ -30,7 +29,6 @@ void TrafficLightBase::night() {
 
 
 void TrafficLightBase::transitionToState(State state, void* callbackObj, Scheduler::CallbackFn* callbackFn) {
-  animator.stopAnimation();
   m_currentState = state;
   isInTransition = true;
   switchState(callbackObj, callbackFn);

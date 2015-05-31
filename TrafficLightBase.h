@@ -18,10 +18,7 @@ protected:
   
   State m_currentState = STATE_OFF;
   bool isInTransition = false;
-  
-  Animator animator;
-   
-  
+    
 public:
 
 

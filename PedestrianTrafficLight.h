@@ -14,6 +14,8 @@ class PedestrianTrafficLight : public TrafficLightBase {
   Light m_redLight;
   Light m_greenLight;
   
+  Animator<PedestrianTrafficLight> m_animator;
+  
   
 public:
 
@@ -32,7 +34,7 @@ private:
   void setNight();
   
    
-  void initStopSequence(void* callbackObj, Scheduler::CallbackFn* callbackFn);
+  void runStopSequenceAnimation(void* callbackObj, Scheduler::CallbackFn* callbackFn);
 
   
 };
