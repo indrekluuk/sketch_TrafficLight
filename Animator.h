@@ -41,7 +41,7 @@ public:
     static void animationDone(void *pAnimator);
 
 private:
-    void callDoneCallback();
+    void callDone();
 
 };
 
@@ -103,11 +103,11 @@ TAnimatedObj *Animator<TAnimatedObj>::getThis() {
 template<class TAnimatedObj>
 void Animator<TAnimatedObj>::animationDone(void *pAnimator) {
     ((Animator *) pAnimator)->stopAnimation();
-    ((Animator *) pAnimator)->callDoneCallback();
+    ((Animator *) pAnimator)->callDone();
 }
 
 template<class TAnimatedObj>
-void Animator<TAnimatedObj>::callDoneCallback() {
+void Animator<TAnimatedObj>::callDone() {
     m_animationDoneCallback.call();
 }
 
