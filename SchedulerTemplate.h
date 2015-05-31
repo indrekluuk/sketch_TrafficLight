@@ -9,7 +9,7 @@
 #include "Scheduler.h"
 
 
-template <class TCallbackObject = void*>
+template<class TCallbackObject = void *>
 class SchedulerTemplate : public Scheduler {
 
     Callback<TCallbackObject> m_callback;
@@ -18,6 +18,7 @@ class SchedulerTemplate : public Scheduler {
 public:
 
     void runPeriodicallyWithCallback(unsigned long time_ms, Callback<TCallbackObject> callback);
+
     void runOnceWithCallback(unsigned long time_ms, Callback<TCallbackObject> callback);
 
     void initCallback(Callback<TCallbackObject> callback);
@@ -29,28 +30,29 @@ protected:
 };
 
 
-
-template <class TCallbackObject>
-void SchedulerTemplate<TCallbackObject>::runPeriodicallyWithCallback(unsigned long time_ms, Callback<TCallbackObject> callback) {
+template<class TCallbackObject>
+void SchedulerTemplate<TCallbackObject>::runPeriodicallyWithCallback(unsigned long time_ms,
+                                                                     Callback<TCallbackObject> callback) {
     initCallback(callback);
     runPeriodically(time_ms);
 }
 
 
-template <class TCallbackObject>
-void SchedulerTemplate<TCallbackObject>::runOnceWithCallback(unsigned long time_ms, Callback<TCallbackObject> callback) {
+template<class TCallbackObject>
+void SchedulerTemplate<TCallbackObject>::runOnceWithCallback(unsigned long time_ms,
+                                                             Callback<TCallbackObject> callback) {
     initCallback(callback);
     runOnce(time_ms);
 }
 
 
-template <class TCallbackObject>
+template<class TCallbackObject>
 void SchedulerTemplate<TCallbackObject>::initCallback(Callback<TCallbackObject> callback) {
     m_callback = callback;
 }
 
 
-template <class TCallbackObject>
+template<class TCallbackObject>
 void SchedulerTemplate<TCallbackObject>::call() {
     m_callback.call();
 }

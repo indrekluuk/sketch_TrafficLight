@@ -1,5 +1,3 @@
-
-
 #define VECHILE_STOP_GREEN_BLINK_ms 4000
 #define VECHILE_STOP_YELLOW_ms 3000
 
