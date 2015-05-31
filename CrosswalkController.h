@@ -27,22 +27,17 @@ public:
 
     void night();
 
-    void stateChanged();
 
 private:
 
+    void stateChanged();
+
     void runPedestrianButtonCycleAnimation();
-
     static void animate_buttonCycle_1(Animator<CrosswalkController> *pAnimator);
-
     static void animate_buttonCycle_2(Animator<CrosswalkController> *pAnimator);
-
     static void animate_buttonCycle_3(Animator<CrosswalkController> *pAnimator);
-
     static void animate_buttonCycle_4(Animator<CrosswalkController> *pAnimator);
-
     static void animate_buttonCycle_5(Animator<CrosswalkController> *pAnimator);
-
     static void animate_buttonCycle_6(Animator<CrosswalkController> *pAnimator);
 
 };

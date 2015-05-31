@@ -33,6 +33,8 @@ void CrosswalkController::night() {
 }
 
 
+
+
 void CrosswalkController::stateChanged() {
     m_animator.stopAnimation();
     m_vehicleTrafficLight.stopAnimation();

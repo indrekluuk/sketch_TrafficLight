@@ -42,11 +42,8 @@ private:
 
 
     void runStopSequenceAnimation(Callback<> doneCallback);
-
     static void animate_stopSequence_1(Animator<VehicleTrafficLight> *pAnimator);
-
     static void animate_stopSequence_2(Animator<VehicleTrafficLight> *pAnimator);
-
     static void animate_stopSequence_3(Animator<VehicleTrafficLight> *pAnimator);
 
 

@@ -1,5 +1,7 @@
 #include "Light.h"
+#include "Constants.h"
 #include <Arduino.h>
+
 
 
 Light::Light(int pin) : m_ledPin(pin) {
@@ -24,7 +26,7 @@ void Light::off() {
 
 void Light::pulse() {
     setLedOn();
-    m_scheduler.runPeriodically(500);
+    m_scheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms);
 }
 
 
