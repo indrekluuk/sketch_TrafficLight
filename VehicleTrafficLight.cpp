@@ -8,43 +8,41 @@ VehicleTrafficLight::VehicleTrafficLight(int redLedPin, int yellowLedPin, int gr
 }
 
 
-void VehicleTrafficLight::switchState(Callback<> callback) {
-    stopAnimation();
 
-    switch (m_currentState) {
-        default:
-        case STATE_OFF:
-            allLightsOff();
-            transitionEnded();
-            break;
-        case STATE_STOP:
-            if (callback.isInitialized()) {
-                runStopSequenceAnimation(callback);
-            } else {
-                setRed();
-                transitionEnded();
-            }
-            break;
-        case STATE_GO:
-            if (callback.isInitialized()) {
-                runGoSequenceAnimation(callback);
-            } else {
-                setGreen();
-                transitionEnded();
-            }
-            break;
-        case STATE_NIGHT:
-            setYellowPulsing();
-            transitionEnded();
-            break;
-    }
+void VehicleTrafficLight::off() {
+    stopAnimation();
+    allLightsOff();
 }
 
+void VehicleTrafficLight::forceStop() {
+    stopAnimation();
+    setRed();
+}
 
+void VehicleTrafficLight::stop(Callback<> callback) {
+    stopAnimation();
+    runStopSequenceAnimation(callback);
+}
+
+void VehicleTrafficLight::forceGo() {
+    stopAnimation();
+    setGreen();
+}
+
+void VehicleTrafficLight::go(Callback<> callback) {
+    stopAnimation();
+    runGoSequenceAnimation(callback);
+}
+
+void VehicleTrafficLight::night() {
+    stopAnimation();
+    setYellowPulsing();
+}
 
 void VehicleTrafficLight::stopAnimation() {
     m_animator.stopAnimation();
 }
+
 
 
 
@@ -102,7 +100,6 @@ void VehicleTrafficLight::animate_stopSequence_2(Animator<VehicleTrafficLight> *
 
 void VehicleTrafficLight::animate_stopSequence_3(Animator<VehicleTrafficLight> *pAnimator) {
     pAnimator->getThis()->setRed();
-    pAnimator->getThis()->transitionEnded();
     pAnimator->animationDone(pAnimator);
 }
 
@@ -120,7 +117,6 @@ void VehicleTrafficLight::animate_goSequence_1(Animator<VehicleTrafficLight> *pA
 
 void VehicleTrafficLight::animate_goSequence_2(Animator<VehicleTrafficLight> *pAnimator) {
     pAnimator->getThis()->setGreen();
-    pAnimator->getThis()->transitionEnded();
     pAnimator->animationDone(pAnimator);
 }
 

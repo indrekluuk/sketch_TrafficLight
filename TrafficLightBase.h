@@ -7,46 +7,22 @@
 
 class TrafficLightBase {
 
-protected:
-    enum State {
-        STATE_OFF,
-        STATE_STOP,
-        STATE_GO,
-        STATE_NIGHT
-    };
-
-    State m_currentState = STATE_OFF;
-    bool isInTransition = false;
-
 public:
 
 
-    TrafficLightBase();
+    virtual void off() = 0;
 
-    void off();
+    virtual void forceStop() = 0;
 
-    void forceStop();
+    virtual void stop(Callback<> callback) = 0;
 
-    void stop(Callback<> callback);
+    virtual void forceGo() = 0;
 
-    void forceGo();
+    virtual void go(Callback<> callback) = 0;
 
-    void go(Callback<> callback);
-
-    void night();
-
+    virtual void night() = 0;
 
     virtual void stopAnimation() = 0;
-
-
-protected:
-    virtual void switchState(Callback<> callback) = 0;
-
-    void transitionEnded();
-
-private:
-    void transitionToState(State state, Callback<> callback);
-
 
 };
 

@@ -21,7 +21,6 @@ set(SOURCE_FILES
     Scheduler.cpp
     Scheduler.h
     SchedulerTemplate.h
-    TrafficLightBase.cpp
     TrafficLightBase.h
     VehicleTrafficLight.cpp
     VehicleTrafficLight.h)
