@@ -84,6 +84,9 @@ void VehicleTrafficLight::setYellowPulsing() {
 }
 
 
+
+
+
 void VehicleTrafficLight::runStopSequenceAnimation(Callback<> doneCallback) {
     m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, doneCallback, animate_stopSequence_1);
 }
