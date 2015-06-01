@@ -15,7 +15,7 @@ void CrosswalkController::off() {
 
 void CrosswalkController::on() {
     stateChanged();
-    m_vehicleTrafficLight.go();
+    m_vehicleTrafficLight.forceGo();
     m_pedestrianTrafficLight.forceStop();
 }
 
@@ -60,7 +60,7 @@ void CrosswalkController::animate_buttonCycle_2(Animator<CrosswalkController> *p
 }
 
 void CrosswalkController::animate_buttonCycle_3(Animator<CrosswalkController> *pAnimator) {
-    pAnimator->getThis()->m_pedestrianTrafficLight.go();
+    pAnimator->getThis()->m_pedestrianTrafficLight.forceGo();
     pAnimator->wait(PEDESTRIAN_GO_GREEN_ms, animate_buttonCycle_4);
 }
 
@@ -73,10 +73,12 @@ void CrosswalkController::animate_buttonCycle_5(Animator<CrosswalkController> *p
 }
 
 void CrosswalkController::animate_buttonCycle_6(Animator<CrosswalkController> *pAnimator) {
-    pAnimator->getThis()->m_vehicleTrafficLight.go();
-    pAnimator->animationDone(pAnimator);
+    pAnimator->getThis()->m_vehicleTrafficLight.go(pAnimator->waitForResponse(animate_buttonCycle_7));
 }
 
+void CrosswalkController::animate_buttonCycle_7(Animator<CrosswalkController> *pAnimator) {
+    pAnimator->animationDone(pAnimator);
+}
 
  
 

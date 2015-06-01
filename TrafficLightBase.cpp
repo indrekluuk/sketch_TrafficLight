@@ -17,8 +17,12 @@ void TrafficLightBase::stop(Callback<> callback) {
     transitionToState(STATE_STOP, callback);
 }
 
-void TrafficLightBase::go() {
+void TrafficLightBase::forceGo() {
     transitionToState(STATE_GO, Callback<>());
+}
+
+void TrafficLightBase::go(Callback<> callback) {
+    transitionToState(STATE_GO, callback);
 }
 
 void TrafficLightBase::night() {
@@ -30,9 +34,6 @@ void TrafficLightBase::transitionToState(State state, Callback<> callback) {
     m_currentState = state;
     isInTransition = true;
     switchState(callback);
-    if (!callback.isInitialized()) {
-        transitionEnded();
-    }
 }
 
 

@@ -16,16 +16,19 @@ void PedestrianTrafficLight::switchState(Callback<> callback) {
         case STATE_NIGHT:
         case STATE_OFF:
             allLightsOff();
+            transitionEnded();
             break;
         case STATE_STOP:
             if (callback.isInitialized()) {
                 runStopSequenceAnimation(callback);
             } else {
                 setRed();
+                transitionEnded();
             }
             break;
         case STATE_GO:
             setGreen();
+            transitionEnded();
             break;
     }
 

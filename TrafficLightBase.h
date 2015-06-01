@@ -29,7 +29,9 @@ public:
 
     void stop(Callback<> callback);
 
-    void go();
+    void forceGo();
+
+    void go(Callback<> callback);
 
     void night();
 

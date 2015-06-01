@@ -15,19 +15,27 @@ void VehicleTrafficLight::switchState(Callback<> callback) {
         default:
         case STATE_OFF:
             allLightsOff();
+            transitionEnded();
             break;
         case STATE_STOP:
             if (callback.isInitialized()) {
                 runStopSequenceAnimation(callback);
             } else {
                 setRed();
+                transitionEnded();
             }
             break;
         case STATE_GO:
-            setGreen();
+            if (callback.isInitialized()) {
+                runGoSequenceAnimation(callback);
+            } else {
+                setGreen();
+                transitionEnded();
+            }
             break;
         case STATE_NIGHT:
             setYellowPulsing();
+            transitionEnded();
             break;
     }
 }
@@ -101,5 +109,19 @@ void VehicleTrafficLight::animate_stopSequence_3(Animator<VehicleTrafficLight> *
 
 
 
+void VehicleTrafficLight::runGoSequenceAnimation(Callback<> doneCallback) {
+    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, doneCallback, animate_goSequence_1);
+}
+
+void VehicleTrafficLight::animate_goSequence_1(Animator<VehicleTrafficLight> *pAnimator) {
+    pAnimator->getThis()->setYellow();
+    pAnimator->wait(VECHILE_GO_YELLOW_ms, animate_goSequence_2);
+}
+
+void VehicleTrafficLight::animate_goSequence_2(Animator<VehicleTrafficLight> *pAnimator) {
+    pAnimator->getThis()->setGreen();
+    pAnimator->getThis()->transitionEnded();
+    pAnimator->animationDone(pAnimator);
+}
 
 

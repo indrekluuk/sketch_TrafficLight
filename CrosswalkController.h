@@ -39,6 +39,7 @@ private:
     static void animate_buttonCycle_4(Animator<CrosswalkController> *pAnimator);
     static void animate_buttonCycle_5(Animator<CrosswalkController> *pAnimator);
     static void animate_buttonCycle_6(Animator<CrosswalkController> *pAnimator);
+    static void animate_buttonCycle_7(Animator<CrosswalkController> *pAnimator);
 
 };
 
