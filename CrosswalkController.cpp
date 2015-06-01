@@ -8,26 +8,26 @@ CrosswalkController::CrosswalkController(int red1, int yellow1, int green1, int 
 
 
 void CrosswalkController::off() {
-    stateChanged();
+    stopAnimation();
     m_vehicleTrafficLight.off();
     m_pedestrianTrafficLight.off();
 }
 
 void CrosswalkController::on() {
-    stateChanged();
+    stopAnimation();
     m_vehicleTrafficLight.forceGo();
     m_pedestrianTrafficLight.forceStop();
 }
 
 void CrosswalkController::buttonPressed() {
     if (!m_animator.isAnimation(ANIMATION_BUTTON_PRESSED)) {
-        stateChanged();
+        stopAnimation();
         runPedestrianButtonCycleAnimation();
     }
 }
 
 void CrosswalkController::night() {
-    stateChanged();
+    stopAnimation();
     m_vehicleTrafficLight.night();
     m_pedestrianTrafficLight.night();
 }
@@ -35,7 +35,7 @@ void CrosswalkController::night() {
 
 
 
-void CrosswalkController::stateChanged() {
+void CrosswalkController::stopAnimation() {
     m_animator.stopAnimation();
     m_vehicleTrafficLight.stopAnimation();
     m_pedestrianTrafficLight.stopAnimation();
