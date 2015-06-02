@@ -1,6 +1,8 @@
 #ifndef Callback_h
 #define Callback_h
 
+#include "global.h"
+
 
 template<class TCallbackObject = void>
 class Callback {
