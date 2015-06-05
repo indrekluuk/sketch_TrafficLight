@@ -32,24 +32,18 @@ public:
     void runOnce(uint32_t time_ms, Callback* callback);
     void clearTimer();
 
-protected:
+private:
+
+    void link();
+    void unlink();
+    static Scheduler *getNodeBefore(Scheduler *node);
 
     void initCallback(Callback* callback);
     void startTimer(uint32_t time_ms);
 
-
-    void call();
-
-
-private:
-
-    void link();
-
-    void unlink();
-
-    static Scheduler *getNodeBefore(Scheduler *node);
-
+    void checkTimer(uint32_t current_time_ms);
     bool isReady(const uint32_t &current_time_ms);
+    void call();
 
 };
 

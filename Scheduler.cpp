@@ -37,7 +37,7 @@ void Scheduler::unlink() {
 Scheduler *Scheduler::getNodeBefore(Scheduler *node) {
     if ((s_firstNode == nullptr) || (s_firstNode == node)) return nullptr;
 
-    Scheduler *before = s_firstNode;
+    Scheduler* before = s_firstNode;
     while (before->m_nextNode != node) {
         before = before->m_nextNode;
     }
@@ -51,13 +51,17 @@ void Scheduler::run() {
 
     Scheduler *node = s_firstNode;
     while (node != nullptr) {
-        if (node->isReady(current_time_ms)) {
-            if (node->m_isRunOnce) {
-                node->clearTimer();
-            }
-            node->call();
-        }
+        node->checkTimer(current_time_ms);
         node = node->m_nextNode;
+    }
+}
+
+void Scheduler::checkTimer(uint32_t current_time_ms) {
+    if (isReady(current_time_ms)) {
+        if (m_isRunOnce) {
+            clearTimer();
+        }
+        call();
     }
 }
 

@@ -1,7 +1,4 @@
 #include "CrosswalkController.h"
-#include "VehicleTrafficLight.h"
-#include "PedestrianTrafficLight.h"
-#include "Light.h"
 #include "Scheduler.h"
 
 
