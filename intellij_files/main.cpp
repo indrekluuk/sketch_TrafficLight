@@ -17,13 +17,13 @@ int main() {
     CrosswalkController controller(1,2,3,4,5);
 
     controller.on();
-    runScheduler(1000);
+    runScheduler(100000);
     controller.buttonPressed();
-    runScheduler(1000);
+    runScheduler(100000);
     controller.night();
-    runScheduler(1000);
+    runScheduler(100000);
     controller.off();
-    runScheduler(1000);
+    runScheduler(100000);
 
     return 0;
 }

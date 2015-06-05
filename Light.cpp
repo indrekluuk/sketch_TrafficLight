@@ -27,7 +27,7 @@ void Light::off() {
 
 
 void Light::pulse() {
-    setLedOn();
+    toggle();
     m_scheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms, &m_togglePulseCallback);
 }
 
