@@ -88,17 +88,17 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 void VehicleTrafficLight::runStopSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &doneCallback, VehicleTrafficLight::animate_stopSequence_1);
+    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &doneCallback, &VehicleTrafficLight::animate_stopSequence_1);
 }
 
 void VehicleTrafficLight::animate_stopSequence_1() {
     setGreenPulsing();
-    m_animator.wait(VECHILE_STOP_GREEN_BLINK_ms, animate_stopSequence_2);
+    m_animator.wait(VECHILE_STOP_GREEN_BLINK_ms, &VehicleTrafficLight::animate_stopSequence_2);
 }
 
 void VehicleTrafficLight::animate_stopSequence_2() {
     setYellow();
-    m_animator.wait(VECHILE_STOP_YELLOW_ms, animate_stopSequence_3);
+    m_animator.wait(VECHILE_STOP_YELLOW_ms, &VehicleTrafficLight::animate_stopSequence_3);
 }
 
 void VehicleTrafficLight::animate_stopSequence_3() {
@@ -110,12 +110,12 @@ void VehicleTrafficLight::animate_stopSequence_3() {
 
 
 void VehicleTrafficLight::runGoSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &doneCallback, animate_goSequence_1);
+    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &doneCallback, &VehicleTrafficLight::animate_goSequence_1);
 }
 
 void VehicleTrafficLight::animate_goSequence_1() {
     setYellow();
-    m_animator.wait(VECHILE_GO_YELLOW_ms, animate_goSequence_2);
+    m_animator.wait(VECHILE_GO_YELLOW_ms, &VehicleTrafficLight::animate_goSequence_2);
 }
 
 void VehicleTrafficLight::animate_goSequence_2() {
