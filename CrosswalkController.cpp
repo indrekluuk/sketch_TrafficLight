@@ -77,6 +77,8 @@ void CrosswalkController::pedestrianButtonCycleAnimationStep(uint8_t step) {
         case 7:
             m_vehicleTrafficLight.go(m_animator.nextAfterResponse());
             break;
+        case 8:
+            break;
     }
 }
 
