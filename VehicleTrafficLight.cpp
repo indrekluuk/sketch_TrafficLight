@@ -19,7 +19,7 @@ void VehicleTrafficLight::forceStop() {
     setRed();
 }
 
-void VehicleTrafficLight::stop(Callback<> callback) {
+void VehicleTrafficLight::stop(Callback& callback) {
     stopAnimation();
     runStopSequenceAnimation(callback);
 }
@@ -29,7 +29,7 @@ void VehicleTrafficLight::forceGo() {
     setGreen();
 }
 
-void VehicleTrafficLight::go(Callback<> callback) {
+void VehicleTrafficLight::go(Callback& callback) {
     stopAnimation();
     runGoSequenceAnimation(callback);
 }
@@ -87,40 +87,40 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 
-void VehicleTrafficLight::runStopSequenceAnimation(Callback<> doneCallback) {
-    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, doneCallback, animate_stopSequence_1);
+void VehicleTrafficLight::runStopSequenceAnimation(Callback& doneCallback) {
+    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &doneCallback, VehicleTrafficLight::animate_stopSequence_1);
 }
 
-void VehicleTrafficLight::animate_stopSequence_1(Animator<VehicleTrafficLight> *pAnimator) {
-    pAnimator->getThis()->setGreenPulsing();
-    pAnimator->wait(VECHILE_STOP_GREEN_BLINK_ms, animate_stopSequence_2);
+void VehicleTrafficLight::animate_stopSequence_1() {
+    setGreenPulsing();
+    m_animator.wait(VECHILE_STOP_GREEN_BLINK_ms, animate_stopSequence_2);
 }
 
-void VehicleTrafficLight::animate_stopSequence_2(Animator<VehicleTrafficLight> *pAnimator) {
-    pAnimator->getThis()->setYellow();
-    pAnimator->wait(VECHILE_STOP_YELLOW_ms, animate_stopSequence_3);
+void VehicleTrafficLight::animate_stopSequence_2() {
+    setYellow();
+    m_animator.wait(VECHILE_STOP_YELLOW_ms, animate_stopSequence_3);
 }
 
-void VehicleTrafficLight::animate_stopSequence_3(Animator<VehicleTrafficLight> *pAnimator) {
-    pAnimator->getThis()->setRed();
-    pAnimator->animationDone(pAnimator);
+void VehicleTrafficLight::animate_stopSequence_3() {
+    setRed();
+    m_animator.animationDone();
 }
 
 
 
 
-void VehicleTrafficLight::runGoSequenceAnimation(Callback<> doneCallback) {
-    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, doneCallback, animate_goSequence_1);
+void VehicleTrafficLight::runGoSequenceAnimation(Callback& doneCallback) {
+    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &doneCallback, animate_goSequence_1);
 }
 
-void VehicleTrafficLight::animate_goSequence_1(Animator<VehicleTrafficLight> *pAnimator) {
-    pAnimator->getThis()->setYellow();
-    pAnimator->wait(VECHILE_GO_YELLOW_ms, animate_goSequence_2);
+void VehicleTrafficLight::animate_goSequence_1() {
+    setYellow();
+    m_animator.wait(VECHILE_GO_YELLOW_ms, animate_goSequence_2);
 }
 
-void VehicleTrafficLight::animate_goSequence_2(Animator<VehicleTrafficLight> *pAnimator) {
-    pAnimator->getThis()->setGreen();
-    pAnimator->animationDone(pAnimator);
+void VehicleTrafficLight::animate_goSequence_2() {
+    setGreen();
+    m_animator.animationDone();
 }
 
 

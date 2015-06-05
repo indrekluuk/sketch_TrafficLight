@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(sketch_TrafficLight)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 include_directories("./intellij_files")
 
@@ -20,7 +20,6 @@ set(SOURCE_FILES
     PedestrianTrafficLight.h
     Scheduler.cpp
     Scheduler.h
-    SchedulerTemplate.h
     TrafficLightBase.h
     VehicleTrafficLight.cpp
     VehicleTrafficLight.h)

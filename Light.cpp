@@ -4,11 +4,9 @@
 
 
 
-Light::Light(int pin) : m_ledPin(pin) {
+Light::Light(int pin) : m_ledPin(pin), m_togglePulseCallback(*this, Light::toggle) {
     pinMode(m_ledPin, OUTPUT);
     off();
-
-    m_scheduler.initCallback(Callback<Light>(this, Light::togglePulse));
 }
 
 
@@ -26,12 +24,7 @@ void Light::off() {
 
 void Light::pulse() {
     setLedOn();
-    m_scheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms);
-}
-
-
-void Light::togglePulse(Light *light) {
-    light->toggle();
+    m_scheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms, &m_togglePulseCallback);
 }
 
 

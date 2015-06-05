@@ -9,11 +9,13 @@ class Scheduler {
 
 private:
     static Scheduler *s_firstNode;
-    Scheduler *m_nextNode = nullptr;
+    Scheduler *m_nextNode;
 
-    unsigned long m_timer_ms = 0;
-    unsigned long m_previousTime_ms = 0;
-    bool isRunOnce = true;
+    unsigned long m_timer_ms;
+    unsigned long m_previousTime_ms;
+    bool m_isRunOnce;
+
+    Callback* m_callback = nullptr;
 
 
 public:
@@ -22,17 +24,21 @@ public:
 
     virtual ~Scheduler();
 
-    void runPeriodically(unsigned long time_ms);
-
-    void runOnce(unsigned long time_ms);
-
-    void clearTimer();
-
     static void run();
 
 
+
+    void runPeriodically(unsigned long time_ms, Callback* callback);
+    void runOnce(unsigned long time_ms, Callback* callback);
+    void clearTimer();
+
 protected:
-    virtual void call() = 0;
+
+    void initCallback(Callback* callback);
+    void startTimer(unsigned long time_ms);
+
+
+    void call();
 
 
 private:

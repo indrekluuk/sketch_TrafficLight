@@ -33,14 +33,14 @@ private:
 
 
     void runPedestrianButtonCycleAnimation();
-    static void animate_buttonCycle_1(Animator<CrosswalkController> *pAnimator);
-    static void animate_buttonCycle_2(Animator<CrosswalkController> *pAnimator);
-    static void animate_buttonCycle_3(Animator<CrosswalkController> *pAnimator);
-    static void animate_buttonCycle_4(Animator<CrosswalkController> *pAnimator);
-    static void animate_buttonCycle_5(Animator<CrosswalkController> *pAnimator);
-    static void animate_buttonCycle_6(Animator<CrosswalkController> *pAnimator);
-    static void animate_buttonCycle_7(Animator<CrosswalkController> *pAnimator);
-    static void animate_buttonCycle_8(Animator<CrosswalkController> *pAnimator);
+    void animate_buttonCycle_1();
+    void animate_buttonCycle_2();
+    void animate_buttonCycle_3();
+    void animate_buttonCycle_4();
+    void animate_buttonCycle_5();
+    void animate_buttonCycle_6();
+    void animate_buttonCycle_7();
+    void animate_buttonCycle_8();
 
 };
 

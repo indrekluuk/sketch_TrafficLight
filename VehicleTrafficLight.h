@@ -26,11 +26,11 @@ public:
 
     void forceStop() override;
 
-    void stop(Callback<> callback) override;
+    void stop(Callback& callback) override;
 
     void forceGo() override;
 
-    void go(Callback<> callback) override;
+    void go(Callback& callback) override;
 
     void night() override;
 
@@ -52,14 +52,14 @@ private:
     void setYellowPulsing();
 
 
-    void runStopSequenceAnimation(Callback<> doneCallback);
-    static void animate_stopSequence_1(Animator<VehicleTrafficLight> *pAnimator);
-    static void animate_stopSequence_2(Animator<VehicleTrafficLight> *pAnimator);
-    static void animate_stopSequence_3(Animator<VehicleTrafficLight> *pAnimator);
+    void runStopSequenceAnimation(Callback& doneCallback);
+    void animate_stopSequence_1();
+    void animate_stopSequence_2();
+    void animate_stopSequence_3();
 
-    void runGoSequenceAnimation(Callback<> doneCallback);
-    static void animate_goSequence_1(Animator<VehicleTrafficLight> *pAnimator);
-    static void animate_goSequence_2(Animator<VehicleTrafficLight> *pAnimator);
+    void runGoSequenceAnimation(Callback& doneCallback);
+    void animate_goSequence_1();
+    void animate_goSequence_2();
 
 
 };

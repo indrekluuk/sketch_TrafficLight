@@ -2,14 +2,15 @@
 #define Light_h
 
 
-#include "SchedulerTemplate.h"
+#include "Scheduler.h"
 
 
 class Light {
 
     int m_ledPin;
     bool m_isLedOn = false;
-    SchedulerTemplate<Light> m_scheduler;
+    Scheduler m_scheduler;
+    CallbackTemplate<Light> m_togglePulseCallback;
 
 public:
     Light(int pin);
@@ -23,7 +24,6 @@ public:
     void toggle();
 
 private:
-    static void togglePulse(Light *light);
 
     void setLedOn();
 

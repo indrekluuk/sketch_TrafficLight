@@ -4,50 +4,44 @@
 #include "global.h"
 
 
-template<class TCallbackObject = void>
 class Callback {
+public:
+    virtual void call() = 0;
+};
+
+
+
+
+template<class TObject>
+class CallbackTemplate : public Callback {
 
 public:
-    typedef void(CallbackFn)(TCallbackObject *);
-
+    typedef void (TObject::*CallbackMethod)(void);
 
 private:
-
-    TCallbackObject *m_callbackObj;
-    CallbackFn *m_callbackFn;
+    TObject& m_object;
+    CallbackMethod m_callbackMethod;
 
 public:
+    CallbackTemplate(TObject& object) :
+            m_object(object), m_callbackMethod(nullptr) {};
 
-    Callback() :
-            m_callbackObj(nullptr), m_callbackFn(nullptr) { }
+    CallbackTemplate(TObject& object, CallbackMethod callbackMethod) :
+            m_object(object), m_callbackMethod(callbackMethod) {};
 
-    Callback(CallbackFn *callbackFn) :
-            m_callbackObj(nullptr), m_callbackFn(callbackFn) { }
-
-    Callback(TCallbackObject *callbackObj, CallbackFn *callbackFn) :
-            m_callbackObj(callbackObj), m_callbackFn(callbackFn) { }
-
-
-    void reinit(TCallbackObject *callbackObj, CallbackFn *callbackFn) {
-        m_callbackObj = callbackObj;
-        m_callbackFn = callbackFn;
-    }
-
-
-    bool isInitialized() {
-        return m_callbackFn != nullptr;
+    CallbackTemplate& operator()(CallbackMethod callbackMethod) {
+        m_callbackMethod = callbackMethod;
     }
 
     void call() {
-        if (isInitialized()) {
-            m_callbackFn(m_callbackObj);
+        if (m_callbackMethod != nullptr) {
+            (m_object.*m_callbackMethod)();
         }
-    }
-
-
-private:
+    };
 
 };
+
+
 
 
 #endif

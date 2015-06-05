@@ -14,11 +14,11 @@ public:
 
     virtual void forceStop() = 0;
 
-    virtual void stop(Callback<> callback) = 0;
+    virtual void stop(Callback& callback) = 0;
 
     virtual void forceGo() = 0;
 
-    virtual void go(Callback<> callback) = 0;
+    virtual void go(Callback& callback) = 0;
 
     virtual void night() = 0;
 

@@ -4,7 +4,12 @@
 Scheduler *Scheduler::s_firstNode = nullptr;
 
 
-Scheduler::Scheduler() {
+Scheduler::Scheduler() :
+        m_nextNode(nullptr),
+        m_timer_ms(0),
+        m_previousTime_ms(0),
+        m_isRunOnce(true)
+{
     link();
 }
 
@@ -39,23 +44,6 @@ Scheduler *Scheduler::getNodeBefore(Scheduler *node) {
 }
 
 
-void Scheduler::runOnce(unsigned long time_ms) {
-    m_timer_ms = time_ms;
-    m_previousTime_ms = millis();
-    isRunOnce = true;
-}
-
-
-void Scheduler::runPeriodically(unsigned long time_ms) {
-    m_timer_ms = time_ms;
-    m_previousTime_ms = millis();
-    isRunOnce = false;
-}
-
-
-void Scheduler::clearTimer() {
-    m_timer_ms = 0;
-}
 
 void Scheduler::run() {
     unsigned long current_time_ms = millis();
@@ -63,7 +51,7 @@ void Scheduler::run() {
     Scheduler *node = s_firstNode;
     while (node != nullptr) {
         if (node->isReady(current_time_ms)) {
-            if (node->isRunOnce) {
+            if (node->m_isRunOnce) {
                 node->clearTimer();
             }
             node->call();
@@ -71,7 +59,6 @@ void Scheduler::run() {
         node = node->m_nextNode;
     }
 }
-
 
 bool Scheduler::isReady(const unsigned long &current_time_ms) {
     if (m_timer_ms == 0) return false;
@@ -84,6 +71,45 @@ bool Scheduler::isReady(const unsigned long &current_time_ms) {
         return false;
     }
 }
+
+
+
+void Scheduler::runPeriodically(unsigned long time_ms, Callback* callback) {
+    initCallback(callback);
+    m_isRunOnce = false;
+    startTimer(time_ms);
+}
+
+void Scheduler::runOnce(unsigned long time_ms, Callback* callback) {
+    initCallback(callback);
+    m_isRunOnce = true;
+    startTimer(time_ms);
+}
+
+
+
+void Scheduler::initCallback(Callback* callback) {
+    m_callback = callback;
+}
+
+void Scheduler::startTimer(unsigned long time_ms) {
+    m_timer_ms = time_ms;
+    m_previousTime_ms = millis();
+}
+
+void Scheduler::clearTimer() {
+    m_timer_ms = 0;
+}
+
+
+
+void Scheduler::call() {
+    if (m_callback != nullptr) {
+        m_callback->call();
+    }
+}
+
+
 
 
 

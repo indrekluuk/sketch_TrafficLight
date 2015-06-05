@@ -25,11 +25,11 @@ public:
 
     void forceStop() override;
 
-    void stop(Callback<> callback) override;
+    void stop(Callback& callback) override;
 
     void forceGo() override;
 
-    void go(Callback<> callback) override;
+    void go(Callback& callback) override;
 
     void night() override;
 
@@ -47,9 +47,9 @@ private:
     void setGreenPulsing();
 
 
-    void runStopSequenceAnimation(Callback<> doneCallback);
-    static void animate_stopSequence_1(Animator<PedestrianTrafficLight> *pAnimator);
-    static void animate_stopSequence_2(Animator<PedestrianTrafficLight> *pAnimator);
+    void runStopSequenceAnimation(Callback& doneCallback);
+    void animate_stopSequence_1();
+    void animate_stopSequence_2();
 
 
 };
