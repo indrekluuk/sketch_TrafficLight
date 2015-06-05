@@ -14,9 +14,9 @@ public:
 
     TAnimatedObj& m_animatedObj;
     Scheduler m_animationScheduler;
-    int m_animationIdentifier = ANIMATION_STOPPED;
+    int m_animationIdentifier;
     CallbackTemplate<TAnimatedObj> m_nextStepCallback;
-    Callback* m_animationDoneCallback = nullptr;
+    Callback* m_animationDoneCallback;
 
 public:
 
@@ -47,7 +47,9 @@ private:
 template<class TAnimatedObj>
 Animator<TAnimatedObj>::Animator(TAnimatedObj& animatedObj) :
         m_animatedObj(animatedObj),
-        m_nextStepCallback(animatedObj)
+        m_nextStepCallback(animatedObj),
+        m_animationDoneCallback(nullptr),
+        m_animationIdentifier(ANIMATION_STOPPED)
 {
 }
 

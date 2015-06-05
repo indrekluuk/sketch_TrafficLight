@@ -21,19 +21,19 @@ public:
 
     PedestrianTrafficLight(int redLedPin, int greenLedPin);
 
-    void off() override;
+    void off();// override;
 
-    void forceStop() override;
+    void forceStop();// override;
 
-    void stop(Callback& callback) override;
+    void stop(Callback& callback);// override;
 
-    void forceGo() override;
+    void forceGo();// override;
 
-    void go(Callback& callback) override;
+    void go(Callback& callback);// override;
 
-    void night() override;
+    void night();// override;
 
-    void stopAnimation() override;
+    void stopAnimation();// override;
 
 
 private:

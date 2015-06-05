@@ -8,7 +8,7 @@
 class Light {
 
     int m_ledPin;
-    bool m_isLedOn = false;
+    bool m_isLedOn;
     Scheduler m_scheduler;
     CallbackTemplate<Light> m_togglePulseCallback;
 

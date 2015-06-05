@@ -15,7 +15,7 @@ private:
     unsigned long m_previousTime_ms;
     bool m_isRunOnce;
 
-    Callback* m_callback = nullptr;
+    Callback* m_callback;
 
 
 public:

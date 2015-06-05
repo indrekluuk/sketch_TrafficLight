@@ -8,7 +8,8 @@ Scheduler::Scheduler() :
         m_nextNode(nullptr),
         m_timer_ms(0),
         m_previousTime_ms(0),
-        m_isRunOnce(true)
+        m_isRunOnce(true),
+        m_callback(nullptr)
 {
     link();
 }
