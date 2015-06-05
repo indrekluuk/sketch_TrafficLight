@@ -4,7 +4,7 @@
 
 
 
-Light::Light(int pin) :
+Light::Light(uint8_t pin) :
         m_ledPin(pin),
         m_togglePulseCallback(*this, &Light::toggle),
         m_isLedOn(false)

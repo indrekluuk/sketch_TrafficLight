@@ -8,7 +8,7 @@
 
 class PedestrianTrafficLight : public TrafficLightBase {
 
-    static const int ANIMATION_STOP_PEDESTRIANS = 1;
+    static const uint8_t ANIMATION_STOP_PEDESTRIANS = 1;
 
 
     Light m_redLight;
@@ -19,7 +19,7 @@ class PedestrianTrafficLight : public TrafficLightBase {
 
 public:
 
-    PedestrianTrafficLight(int redLedPin, int greenLedPin);
+    PedestrianTrafficLight(uint8_t redLedPin, uint8_t greenLedPin);
 
     void off();// override;
 
@@ -48,8 +48,7 @@ private:
 
 
     void runStopSequenceAnimation(Callback& doneCallback);
-    void animate_stopSequence_1();
-    void animate_stopSequence_2();
+    void stopSequenceAnimationStep(uint8_t step);
 
 
 };

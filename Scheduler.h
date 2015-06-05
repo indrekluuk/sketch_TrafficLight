@@ -11,8 +11,8 @@ private:
     static Scheduler *s_firstNode;
     Scheduler *m_nextNode;
 
-    unsigned long m_timer_ms;
-    unsigned long m_previousTime_ms;
+    uint32_t m_timer_ms;
+    uint32_t m_previousTime_ms;
     bool m_isRunOnce;
 
     Callback* m_callback;
@@ -28,14 +28,14 @@ public:
 
 
 
-    void runPeriodically(unsigned long time_ms, Callback* callback);
-    void runOnce(unsigned long time_ms, Callback* callback);
+    void runPeriodically(uint32_t time_ms, Callback* callback);
+    void runOnce(uint32_t time_ms, Callback* callback);
     void clearTimer();
 
 protected:
 
     void initCallback(Callback* callback);
-    void startTimer(unsigned long time_ms);
+    void startTimer(uint32_t time_ms);
 
 
     void call();
@@ -49,7 +49,7 @@ private:
 
     static Scheduler *getNodeBefore(Scheduler *node);
 
-    bool isReady(const unsigned long &current_time_ms);
+    bool isReady(const uint32_t &current_time_ms);
 
 };
 

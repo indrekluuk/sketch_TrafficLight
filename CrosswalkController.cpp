@@ -2,7 +2,7 @@
 #include "Constants.h"
 
 
-CrosswalkController::CrosswalkController(int red1, int yellow1, int green1, int red2, int green2) :
+CrosswalkController::CrosswalkController(uint8_t red1, uint8_t yellow1, uint8_t green1, uint8_t red2, uint8_t green2) :
         m_animator(*this),
         m_vehicleTrafficLight(red1, yellow1, green1),
         m_pedestrianTrafficLight(red2, green2)
@@ -50,42 +50,33 @@ void CrosswalkController::stopAnimation() {
 
 
 void CrosswalkController::runPedestrianButtonCycleAnimation() {
-    m_animator.startAnimation(ANIMATION_BUTTON_PRESSED, &CrosswalkController::animate_buttonCycle_1);
+    m_animator.startAnimation(ANIMATION_BUTTON_PRESSED, &CrosswalkController::pedestrianButtonCycleAnimationStep);
 }
 
-void CrosswalkController::animate_buttonCycle_1() {
-    m_pedestrianTrafficLight.forceStop();
-    m_vehicleTrafficLight.stop(m_animator.waitForResponse(&CrosswalkController::animate_buttonCycle_2));
+void CrosswalkController::pedestrianButtonCycleAnimationStep(uint8_t step) {
+    switch (step) {
+        case 1:
+            m_pedestrianTrafficLight.forceStop();
+            m_vehicleTrafficLight.stop(m_animator.waitForResponse());
+            break;
+        case 2:
+            m_animator.wait(PEDESTRIAN_GO_DELAY_ms);
+            break;
+        case 3:
+            m_pedestrianTrafficLight.go(m_animator.waitForResponse());
+            break;
+        case 4:
+            m_animator.wait(PEDESTRIAN_GO_GREEN_ms);
+            break;
+        case 5:
+            m_pedestrianTrafficLight.stop(m_animator.waitForResponse());
+            break;
+        case 6:
+            m_animator.wait(VECHILE_GO_DELAY_ms);
+            break;
+        case 7:
+            m_vehicleTrafficLight.go(m_animator.waitForResponse());
+            break;
+    }
 }
-
-void CrosswalkController::animate_buttonCycle_2() {
-    m_animator.wait(PEDESTRIAN_GO_DELAY_ms, &CrosswalkController::animate_buttonCycle_3);
-}
-
-void CrosswalkController::animate_buttonCycle_3() {
-    m_pedestrianTrafficLight.go(m_animator.waitForResponse(&CrosswalkController::animate_buttonCycle_4));
-}
-
-void CrosswalkController::animate_buttonCycle_4() {
-    m_animator.wait(PEDESTRIAN_GO_GREEN_ms, &CrosswalkController::animate_buttonCycle_5);
-}
-
-void CrosswalkController::animate_buttonCycle_5() {
-    m_pedestrianTrafficLight.stop(m_animator.waitForResponse(&CrosswalkController::animate_buttonCycle_6));
-}
-
-void CrosswalkController::animate_buttonCycle_6() {
-    m_animator.wait(VECHILE_GO_DELAY_ms, &CrosswalkController::animate_buttonCycle_7);
-}
-
-void CrosswalkController::animate_buttonCycle_7() {
-    m_vehicleTrafficLight.go(m_animator.waitForResponse(&CrosswalkController::animate_buttonCycle_8));
-}
-
-void CrosswalkController::animate_buttonCycle_8() {
-    m_animator.animationDone();
-}
-
- 
-
 

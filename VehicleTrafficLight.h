@@ -7,8 +7,8 @@
 
 class VehicleTrafficLight : public TrafficLightBase {
 
-    static const int ANIMATION_STOP_TRAFFIC = 1;
-    static const int ANIMATION_GO_TRAFFIC = 2;
+    static const uint8_t ANIMATION_STOP_TRAFFIC = 1;
+    static const uint8_t ANIMATION_GO_TRAFFIC = 2;
 
 
     Light m_redLight;
@@ -20,7 +20,7 @@ class VehicleTrafficLight : public TrafficLightBase {
 
 public:
 
-    VehicleTrafficLight(int redLedPin, int yellowLedPin, int greenLedPin);
+    VehicleTrafficLight(uint8_t redLedPin, uint8_t yellowLedPin, uint8_t greenLedPin);
 
     void off();// override;
 
@@ -53,13 +53,10 @@ private:
 
 
     void runStopSequenceAnimation(Callback& doneCallback);
-    void animate_stopSequence_1();
-    void animate_stopSequence_2();
-    void animate_stopSequence_3();
+    void stopSequenceAnimationStep(uint8_t step);
 
     void runGoSequenceAnimation(Callback& doneCallback);
-    void animate_goSequence_1();
-    void animate_goSequence_2();
+    void goSequenceAnimationStep(uint8_t step);
 
 
 };

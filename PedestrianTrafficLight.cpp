@@ -2,7 +2,7 @@
 #include "Constants.h"
 
 
-PedestrianTrafficLight::PedestrianTrafficLight(int redLedPin, int greenLedPin) :
+PedestrianTrafficLight::PedestrianTrafficLight(uint8_t redLedPin, uint8_t greenLedPin) :
         m_animator(*this), m_redLight(redLedPin), m_greenLight(greenLedPin) {
 
 }
@@ -67,17 +67,18 @@ void PedestrianTrafficLight::setGreenPulsing() {
 
 
 void PedestrianTrafficLight::runStopSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, &doneCallback, &PedestrianTrafficLight::animate_stopSequence_1);
+    m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, &doneCallback, &PedestrianTrafficLight::stopSequenceAnimationStep);
 }
 
-void PedestrianTrafficLight::animate_stopSequence_1() {
-    setGreenPulsing();
-    m_animator.wait(PEDESTRIAN_STOP_GREEN_BLINK_ms, &PedestrianTrafficLight::animate_stopSequence_2);
+void PedestrianTrafficLight::stopSequenceAnimationStep(uint8_t step) {
+    switch (step) {
+        case 1:
+            setGreenPulsing();
+            m_animator.wait(PEDESTRIAN_STOP_GREEN_BLINK_ms);
+            break;
+        case 2:
+            setRed();
+            break;
+    }
 }
-
-void PedestrianTrafficLight::animate_stopSequence_2() {
-    setRed();
-    m_animator.animationDone();
-}
-
 

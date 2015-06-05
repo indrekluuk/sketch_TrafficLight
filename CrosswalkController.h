@@ -8,7 +8,7 @@
 
 class CrosswalkController {
 
-    static const int ANIMATION_BUTTON_PRESSED = 1;
+    static const uint8_t ANIMATION_BUTTON_PRESSED = 1;
 
     VehicleTrafficLight m_vehicleTrafficLight;
     PedestrianTrafficLight m_pedestrianTrafficLight;
@@ -17,7 +17,7 @@ class CrosswalkController {
 
 
 public:
-    CrosswalkController(int red1, int yellow1, int green1, int red2, int green2);
+    CrosswalkController(uint8_t red1, uint8_t yellow1, uint8_t green1, uint8_t red2, uint8_t green2);
 
     void off();
 
@@ -31,16 +31,8 @@ public:
 
 private:
 
-
     void runPedestrianButtonCycleAnimation();
-    void animate_buttonCycle_1();
-    void animate_buttonCycle_2();
-    void animate_buttonCycle_3();
-    void animate_buttonCycle_4();
-    void animate_buttonCycle_5();
-    void animate_buttonCycle_6();
-    void animate_buttonCycle_7();
-    void animate_buttonCycle_8();
+    void pedestrianButtonCycleAnimationStep(uint8_t step);
 
 };
 

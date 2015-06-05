@@ -47,7 +47,7 @@ Scheduler *Scheduler::getNodeBefore(Scheduler *node) {
 
 
 void Scheduler::run() {
-    unsigned long current_time_ms = millis();
+    uint32_t current_time_ms = millis();
 
     Scheduler *node = s_firstNode;
     while (node != nullptr) {
@@ -61,10 +61,10 @@ void Scheduler::run() {
     }
 }
 
-bool Scheduler::isReady(const unsigned long &current_time_ms) {
+bool Scheduler::isReady(const uint32_t &current_time_ms) {
     if (m_timer_ms == 0) return false;
 
-    unsigned long elapsed_time_ms = current_time_ms - m_previousTime_ms;
+    uint32_t elapsed_time_ms = current_time_ms - m_previousTime_ms;
     if (elapsed_time_ms > m_timer_ms) {
         m_previousTime_ms = m_previousTime_ms + m_timer_ms;
         return true;
@@ -75,13 +75,13 @@ bool Scheduler::isReady(const unsigned long &current_time_ms) {
 
 
 
-void Scheduler::runPeriodically(unsigned long time_ms, Callback* callback) {
+void Scheduler::runPeriodically(uint32_t time_ms, Callback* callback) {
     initCallback(callback);
     m_isRunOnce = false;
     startTimer(time_ms);
 }
 
-void Scheduler::runOnce(unsigned long time_ms, Callback* callback) {
+void Scheduler::runOnce(uint32_t time_ms, Callback* callback) {
     initCallback(callback);
     m_isRunOnce = true;
     startTimer(time_ms);
@@ -93,7 +93,7 @@ void Scheduler::initCallback(Callback* callback) {
     m_callback = callback;
 }
 
-void Scheduler::startTimer(unsigned long time_ms) {
+void Scheduler::startTimer(uint32_t time_ms) {
     m_timer_ms = time_ms;
     m_previousTime_ms = millis();
 }

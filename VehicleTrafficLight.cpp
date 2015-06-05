@@ -2,7 +2,7 @@
 #include "Constants.h"
 
 
-VehicleTrafficLight::VehicleTrafficLight(int redLedPin, int yellowLedPin, int greenLedPin) :
+VehicleTrafficLight::VehicleTrafficLight(uint8_t redLedPin, uint8_t yellowLedPin, uint8_t greenLedPin) :
         m_animator(*this), m_redLight(redLedPin), m_yellowLight(yellowLedPin), m_greenLight(greenLedPin) {
 
 }
@@ -88,39 +88,41 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 void VehicleTrafficLight::runStopSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &doneCallback, &VehicleTrafficLight::animate_stopSequence_1);
+    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &doneCallback, &VehicleTrafficLight::stopSequenceAnimationStep);
 }
 
-void VehicleTrafficLight::animate_stopSequence_1() {
-    setGreenPulsing();
-    m_animator.wait(VECHILE_STOP_GREEN_BLINK_ms, &VehicleTrafficLight::animate_stopSequence_2);
+void VehicleTrafficLight::stopSequenceAnimationStep(uint8_t step) {
+    switch (step) {
+        case 1:
+            setGreenPulsing();
+            m_animator.wait(VECHILE_STOP_GREEN_BLINK_ms);
+            break;
+        case 2:
+            setYellow();
+            m_animator.wait(VECHILE_STOP_YELLOW_ms);
+            break;
+        case 3:
+            setRed();
+            break;
+    }
 }
-
-void VehicleTrafficLight::animate_stopSequence_2() {
-    setYellow();
-    m_animator.wait(VECHILE_STOP_YELLOW_ms, &VehicleTrafficLight::animate_stopSequence_3);
-}
-
-void VehicleTrafficLight::animate_stopSequence_3() {
-    setRed();
-    m_animator.animationDone();
-}
-
 
 
 
 void VehicleTrafficLight::runGoSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &doneCallback, &VehicleTrafficLight::animate_goSequence_1);
+    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &doneCallback, &VehicleTrafficLight::goSequenceAnimationStep);
 }
 
-void VehicleTrafficLight::animate_goSequence_1() {
-    setYellow();
-    m_animator.wait(VECHILE_GO_YELLOW_ms, &VehicleTrafficLight::animate_goSequence_2);
-}
-
-void VehicleTrafficLight::animate_goSequence_2() {
-    setGreen();
-    m_animator.animationDone();
+void VehicleTrafficLight::goSequenceAnimationStep(uint8_t step) {
+    switch (step) {
+        case 1:
+            setYellow();
+            m_animator.wait(VECHILE_GO_YELLOW_ms);
+            break;
+        case 2:
+            setGreen();
+            break;
+    }
 }
 
 
