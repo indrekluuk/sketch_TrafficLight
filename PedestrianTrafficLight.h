@@ -25,11 +25,11 @@ public:
 
     void forceStop();// override;
 
-    void stop(Callback& callback);// override;
+    void stop(Callback& done);// override;
 
     void forceGo();// override;
 
-    void go(Callback& callback);// override;
+    void go(Callback& done);// override;
 
     void night();// override;
 
@@ -47,7 +47,7 @@ private:
     void setGreenPulsing();
 
 
-    void runStopSequenceAnimation(Callback& doneCallback);
+    void runStopSequenceAnimation(Callback& done);
     void stopSequenceAnimationStep(uint8_t step);
 
 

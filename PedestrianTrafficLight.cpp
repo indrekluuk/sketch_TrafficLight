@@ -18,9 +18,9 @@ void PedestrianTrafficLight::forceStop() {
     setRed();
 }
 
-void PedestrianTrafficLight::stop(Callback& callback) {
+void PedestrianTrafficLight::stop(Callback& done) {
     stopAnimation();
-    runStopSequenceAnimation(callback);
+    runStopSequenceAnimation(done);
 }
 
 void PedestrianTrafficLight::forceGo() {
@@ -28,9 +28,9 @@ void PedestrianTrafficLight::forceGo() {
     setGreen();
 }
 
-void PedestrianTrafficLight::go(Callback& callback) {
+void PedestrianTrafficLight::go(Callback& done) {
     forceGo();
-    callback.call();
+    done.call();
 }
 
 void PedestrianTrafficLight::night() {
@@ -66,8 +66,8 @@ void PedestrianTrafficLight::setGreenPulsing() {
 
 
 
-void PedestrianTrafficLight::runStopSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, &doneCallback, &PedestrianTrafficLight::stopSequenceAnimationStep);
+void PedestrianTrafficLight::runStopSequenceAnimation(Callback& done) {
+    m_animator.startAnimation(ANIMATION_STOP_PEDESTRIANS, &done, &PedestrianTrafficLight::stopSequenceAnimationStep);
 }
 
 void PedestrianTrafficLight::stopSequenceAnimationStep(uint8_t step) {

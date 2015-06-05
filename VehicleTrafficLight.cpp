@@ -19,9 +19,9 @@ void VehicleTrafficLight::forceStop() {
     setRed();
 }
 
-void VehicleTrafficLight::stop(Callback& callback) {
+void VehicleTrafficLight::stop(Callback& done) {
     stopAnimation();
-    runStopSequenceAnimation(callback);
+    runStopSequenceAnimation(done);
 }
 
 void VehicleTrafficLight::forceGo() {
@@ -29,9 +29,9 @@ void VehicleTrafficLight::forceGo() {
     setGreen();
 }
 
-void VehicleTrafficLight::go(Callback& callback) {
+void VehicleTrafficLight::go(Callback& done) {
     stopAnimation();
-    runGoSequenceAnimation(callback);
+    runGoSequenceAnimation(done);
 }
 
 void VehicleTrafficLight::night() {
@@ -87,8 +87,8 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 
-void VehicleTrafficLight::runStopSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &doneCallback, &VehicleTrafficLight::stopSequenceAnimationStep);
+void VehicleTrafficLight::runStopSequenceAnimation(Callback& done) {
+    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &done, &VehicleTrafficLight::stopSequenceAnimationStep);
 }
 
 void VehicleTrafficLight::stopSequenceAnimationStep(uint8_t step) {
@@ -109,8 +109,8 @@ void VehicleTrafficLight::stopSequenceAnimationStep(uint8_t step) {
 
 
 
-void VehicleTrafficLight::runGoSequenceAnimation(Callback& doneCallback) {
-    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &doneCallback, &VehicleTrafficLight::goSequenceAnimationStep);
+void VehicleTrafficLight::runGoSequenceAnimation(Callback& done) {
+    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &done, &VehicleTrafficLight::goSequenceAnimationStep);
 }
 
 void VehicleTrafficLight::goSequenceAnimationStep(uint8_t step) {

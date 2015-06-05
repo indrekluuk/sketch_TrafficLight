@@ -37,7 +37,7 @@ public:
 
     void nextWithDelay(uint32_t time_ms);
 
-    Callback& nextAfterResponse();
+    Callback& nextWhenDone();
 
     void animationDone();
 
@@ -113,7 +113,7 @@ void Animator<TAnimatedObj>::nextWithDelay(uint32_t time_ms) {
 
 
 template<class TAnimatedObj>
-Callback& Animator<TAnimatedObj>::nextAfterResponse() {
+Callback& Animator<TAnimatedObj>::nextWhenDone() {
     m_hasNextStep = true;
     return m_nextStepCallback;
 }
