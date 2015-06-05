@@ -35,9 +35,9 @@ public:
 
     void startAnimation(uint8_t animationIdentifier, Callback* done, AnimationStepMethod animationStep);
 
-    void wait(uint32_t time_ms);
+    void nextWithDelay(uint32_t time_ms);
 
-    Callback& waitForResponse();
+    Callback& nextAfterResponse();
 
     void animationDone();
 
@@ -106,14 +106,14 @@ void Animator<TAnimatedObj>::nextStep() {
 
 
 template<class TAnimatedObj>
-void Animator<TAnimatedObj>::wait(uint32_t time_ms) {
+void Animator<TAnimatedObj>::nextWithDelay(uint32_t time_ms) {
     m_hasNextStep = true;
     m_animationScheduler.runOnce(time_ms, &m_nextStepCallback);
 }
 
 
 template<class TAnimatedObj>
-Callback& Animator<TAnimatedObj>::waitForResponse() {
+Callback& Animator<TAnimatedObj>::nextAfterResponse() {
     m_hasNextStep = true;
     return m_nextStepCallback;
 }

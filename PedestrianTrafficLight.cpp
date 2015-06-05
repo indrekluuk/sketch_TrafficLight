@@ -74,7 +74,7 @@ void PedestrianTrafficLight::stopSequenceAnimationStep(uint8_t step) {
     switch (step) {
         case 1:
             setGreenPulsing();
-            m_animator.wait(PEDESTRIAN_STOP_GREEN_BLINK_ms);
+            m_animator.nextWithDelay(PEDESTRIAN_STOP_GREEN_BLINK_ms);
             break;
         case 2:
             setRed();
