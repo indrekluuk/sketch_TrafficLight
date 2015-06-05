@@ -6,19 +6,19 @@
 
 
 
-int redLed1 = 13;
-int yellowLed1 = 12;
-int greenLed1 = 11;
+uint8_t redLed1 = 13;
+uint8_t yellowLed1 = 12;
+uint8_t greenLed1 = 11;
 
-int redLed2 = 10;
-int greenLed2 = 9;
+uint8_t redLed2 = 10;
+uint8_t greenLed2 = 9;
 
 
 CrosswalkController crosswalkController(redLed1, yellowLed1, greenLed1, redLed2, greenLed2);
 
 
-int state = 0;
-int previousState = 0;
+uint8_t state = 0;
+uint8_t previousState = 0;
 boolean switchState = false;
 
 
