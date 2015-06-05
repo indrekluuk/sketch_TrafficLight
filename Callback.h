@@ -31,6 +31,7 @@ public:
 
     CallbackTemplate& operator()(CallbackMethod callbackMethod) {
         m_callbackMethod = callbackMethod;
+        return *this;
     }
 
     void call() {
