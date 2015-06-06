@@ -38,7 +38,7 @@ public:
 
     static const uint8_t ANIMATION_STOPPED = 0;
 
-    MethodCallbackScheduler<Animator> m_animationScheduler;
+    MethodCallbackScheduler<Animator> m_animationDelayScheduler;
     TAnimatedObj& m_animatedObj;
     uint8_t m_animationIdentifier;
     MethodCallback<Animator> m_otherAnimationDoneCallback;
@@ -76,7 +76,7 @@ private:
 
 template<class TAnimatedObj>
 Animator<TAnimatedObj>::Animator(TAnimatedObj& animatedObj) :
-        m_animationScheduler(*this, &Animator::nextStep),
+        m_animationDelayScheduler(*this, &Animator::nextStep),
         m_animatedObj(animatedObj),
         m_animationIdentifier(ANIMATION_STOPPED),
         m_otherAnimationDoneCallback(*this, &Animator::nextStep),
@@ -98,7 +98,7 @@ template<class TAnimatedObj>
 void Animator<TAnimatedObj>::stopAnimation() {
     m_animationIdentifier = ANIMATION_STOPPED;
     m_animationStep = 0;
-    m_animationScheduler.clearTimer();
+    m_animationDelayScheduler.clearTimer();
 }
 
 
@@ -137,7 +137,7 @@ void Animator<TAnimatedObj>::nextStep() {
 template<class TAnimatedObj>
 void Animator<TAnimatedObj>::nextWithDelay(uint32_t time_ms) {
     m_hasNextStep = true;
-    m_animationScheduler.runOnce(time_ms);
+    m_animationDelayScheduler.runOnce(time_ms);
 }
 
 
