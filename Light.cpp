@@ -6,7 +6,7 @@
 
 Light::Light(uint8_t pin) :
         m_ledPin(pin),
-        m_togglePulseCallback(*this, &Light::toggle),
+        m_pulseScheduler(*this, &Light::toggle),
         m_isLedOn(false)
 {
     pinMode(m_ledPin, OUTPUT);
@@ -15,20 +15,20 @@ Light::Light(uint8_t pin) :
 
 
 void Light::on() {
-    m_scheduler.clearTimer();
+    m_pulseScheduler.clearTimer();
     setLedOn();
 }
 
 
 void Light::off() {
-    m_scheduler.clearTimer();
+    m_pulseScheduler.clearTimer();
     setLedOff();
 }
 
 
 void Light::pulse() {
     toggle();
-    m_scheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms, &m_togglePulseCallback);
+    m_pulseScheduler.startTimerPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms);
 }
 
 

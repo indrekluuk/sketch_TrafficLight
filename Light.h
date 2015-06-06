@@ -9,8 +9,7 @@ class Light {
 
     uint8_t m_ledPin;
     bool m_isLedOn;
-    Scheduler m_scheduler;
-    CallbackTemplate<Light> m_togglePulseCallback;
+    MethodCallbackScheduler<Light> m_pulseScheduler;
 
 public:
     Light(uint8_t pin);

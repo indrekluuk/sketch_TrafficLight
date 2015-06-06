@@ -8,8 +8,7 @@ Scheduler::Scheduler() :
         m_nextNode(nullptr),
         m_timer_ms(0),
         m_previousTime_ms(0),
-        m_isRunOnce(true),
-        m_callback(nullptr)
+        m_isRunOnce(true)
 {
     link();
 }
@@ -79,22 +78,14 @@ bool Scheduler::isReady(const uint32_t &current_time_ms) {
 
 
 
-void Scheduler::runPeriodically(uint32_t time_ms, Callback* callback) {
-    initCallback(callback);
+void Scheduler::startTimerPeriodically(uint32_t time_ms) {
     m_isRunOnce = false;
     startTimer(time_ms);
 }
 
-void Scheduler::runOnce(uint32_t time_ms, Callback* callback) {
-    initCallback(callback);
+void Scheduler::startTimerOnce(uint32_t time_ms) {
     m_isRunOnce = true;
     startTimer(time_ms);
-}
-
-
-
-void Scheduler::initCallback(Callback* callback) {
-    m_callback = callback;
 }
 
 void Scheduler::startTimer(uint32_t time_ms) {
@@ -107,12 +98,6 @@ void Scheduler::clearTimer() {
 }
 
 
-
-void Scheduler::call() {
-    if (m_callback != nullptr) {
-        m_callback->call();
-    }
-}
 
 
 

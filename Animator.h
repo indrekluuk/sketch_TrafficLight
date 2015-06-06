@@ -12,10 +12,10 @@ public:
 
     static const uint8_t ANIMATION_STOPPED = 0;
 
-    Scheduler m_animationScheduler;
+    MethodCallbackScheduler<Animator> m_animationScheduler;
     TAnimatedObj& m_animatedObj;
     uint8_t m_animationIdentifier;
-    CallbackTemplate<Animator> m_nextStepCallback;
+    CallbackTemplate<Animator> m_otherAnimationDoneCallback;
     AnimationStepMethod m_animationStepMethod;
     uint8_t m_animationStep;
     bool m_hasNextStep;
@@ -50,9 +50,10 @@ private:
 
 template<class TAnimatedObj>
 Animator<TAnimatedObj>::Animator(TAnimatedObj& animatedObj) :
+        m_animationScheduler(*this, &Animator::nextStep),
         m_animatedObj(animatedObj),
         m_animationIdentifier(ANIMATION_STOPPED),
-        m_nextStepCallback(*this, &Animator<TAnimatedObj>::nextStep),
+        m_otherAnimationDoneCallback(*this, &Animator::nextStep),
         m_animationStepMethod(nullptr),
         m_animationStep(0),
         m_hasNextStep(false),
@@ -90,7 +91,7 @@ void Animator<TAnimatedObj>::startAnimation(uint8_t animationIdentifier,
     m_animationStepMethod = animationStep;
     m_animationStep = 0;
     m_animationDoneCallback = done;
-    m_nextStepCallback.call();
+    nextStep();
 }
 
 
@@ -98,7 +99,9 @@ template<class TAnimatedObj>
 void Animator<TAnimatedObj>::nextStep() {
     m_animationStep++;
     m_hasNextStep = false;
-    (m_animatedObj.*m_animationStepMethod)(m_animationStep);
+    if (m_animationStep != nullptr) {
+        (m_animatedObj.*m_animationStepMethod)(m_animationStep);
+    }
     if (!m_hasNextStep) {
         animationDone();
     }
@@ -108,14 +111,14 @@ void Animator<TAnimatedObj>::nextStep() {
 template<class TAnimatedObj>
 void Animator<TAnimatedObj>::nextWithDelay(uint32_t time_ms) {
     m_hasNextStep = true;
-    m_animationScheduler.runOnce(time_ms, &m_nextStepCallback);
+    m_animationScheduler.startTimerOnce(time_ms);
 }
 
 
 template<class TAnimatedObj>
 Callback& Animator<TAnimatedObj>::nextWhenDone() {
     m_hasNextStep = true;
-    return m_nextStepCallback;
+    return m_otherAnimationDoneCallback;
 }
 
 
