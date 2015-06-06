@@ -3,27 +3,31 @@ project(sketch_TrafficLight)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-include_directories("./intellij_files")
+include_directories("./external_src")
+include_directories("./sketch_TrafficLight")
+
+
+set(EXT_SOURCE_FILES
+    external_src/Arduino.cpp
+    external_src/Arduino.h
+    external_src/main.cpp)
 
 set(SOURCE_FILES
-    intellij_files/Arduino.cpp
-    intellij_files/Arduino.h
-    intellij_files/main.cpp
-    Sequencer.cpp
-    Sequencer.h
-    Callback.h
-    Constants.h
-    CrosswalkController.cpp
-    CrosswalkController.h
-    Light.cpp
-    Light.h
-    PedestrianTrafficLight.cpp
-    PedestrianTrafficLight.h
-    Scheduler.cpp
-    Scheduler.h
-    TrafficLightBase.h
-    VehicleTrafficLight.cpp
-    VehicleTrafficLight.h)
+    sketch_TrafficLight/Sequencer.cpp
+    sketch_TrafficLight/Sequencer.h
+    sketch_TrafficLight/Callback.h
+    sketch_TrafficLight/Constants.h
+    sketch_TrafficLight/CrosswalkController.cpp
+    sketch_TrafficLight/CrosswalkController.h
+    sketch_TrafficLight/Light.cpp
+    sketch_TrafficLight/Light.h
+    sketch_TrafficLight/PedestrianTrafficLight.cpp
+    sketch_TrafficLight/PedestrianTrafficLight.h
+    sketch_TrafficLight/Scheduler.cpp
+    sketch_TrafficLight/Scheduler.h
+    sketch_TrafficLight/TrafficLightBase.h
+    sketch_TrafficLight/VehicleTrafficLight.cpp
+    sketch_TrafficLight/VehicleTrafficLight.h)
 
-add_executable(sketch_TrafficLight ${SOURCE_FILES})
+add_executable(sketch_TrafficLight ${EXT_SOURCE_FILES} ${SOURCE_FILES})
 
