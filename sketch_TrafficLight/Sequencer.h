@@ -82,10 +82,10 @@ private:
     NextStepFunction m_sequenceStepFunction;
 
 public:
-    FunctionSequencer() : m_sequenceStepFunction(nullptr) {}
+    FunctionSequencer() : m_sequenceStepFunction(NULL) {}
 
     void startSequence(uint8_t sequenceIdentifier, NextStepFunction sequenceStepFunction) {
-        startSequence(sequenceIdentifier, nullptr, sequenceStepFunction);
+        startSequence(sequenceIdentifier, NULL, sequenceStepFunction);
     }
 
     void startSequence(uint8_t sequenceIdentifier, Callback* done, NextStepFunction sequenceStepFunction) {
@@ -96,7 +96,7 @@ public:
 protected:
 
     void callNextStep() { //override;
-        if (m_sequenceStepFunction != nullptr) {
+        if (m_sequenceStepFunction != NULL) {
             m_sequenceStepFunction(*this, m_sequenceStep);
         }
     }
@@ -121,11 +121,11 @@ private:
 
 public:
     MethodSequencer(TObj& obj) :
-            m_obj(obj), m_sequenceStepMethod(nullptr)
+            m_obj(obj), m_sequenceStepMethod(NULL)
     {}
 
     void startSequence(uint8_t sequenceIdentifier, SequenceStepMethod sequenceStepMethod) {
-        startSequence(sequenceIdentifier, nullptr, sequenceStepMethod);
+        startSequence(sequenceIdentifier, NULL, sequenceStepMethod);
     }
 
     void startSequence(uint8_t sequenceIdentifier, Callback* done, SequenceStepMethod sequenceStepMethod) {
@@ -136,7 +136,7 @@ public:
 protected:
 
     void callNextStep() { //override;
-        if (m_sequenceStepMethod != nullptr) {
+        if (m_sequenceStepMethod != NULL) {
             (m_obj.*m_sequenceStepMethod)(*this, m_sequenceStep);
         }
     }

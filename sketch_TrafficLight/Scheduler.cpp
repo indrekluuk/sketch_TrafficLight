@@ -27,11 +27,11 @@
 #include "Scheduler.h"
 
 
-Scheduler *Scheduler::s_firstNode = nullptr;
+Scheduler *Scheduler::s_firstNode = NULL;
 
 
 Scheduler::Scheduler() :
-        m_nextNode(nullptr),
+        m_nextNode(NULL),
         m_timer_ms(0),
         m_previousTime_ms(0),
         m_isRunOnce(true)
@@ -44,10 +44,10 @@ Scheduler::~Scheduler() {
 }
 
 void Scheduler::link() {
-    if (s_firstNode == nullptr) {
+    if (s_firstNode == NULL) {
         s_firstNode = this;
     } else {
-        getNodeBefore(nullptr)->m_nextNode = this;
+        getNodeBefore(NULL)->m_nextNode = this;
     }
 }
 
@@ -60,7 +60,7 @@ void Scheduler::unlink() {
 }
 
 Scheduler *Scheduler::getNodeBefore(Scheduler *node) {
-    if ((s_firstNode == nullptr) || (s_firstNode == node)) return nullptr;
+    if ((s_firstNode == NULL) || (s_firstNode == node)) return NULL;
 
     Scheduler* before = s_firstNode;
     while (before->m_nextNode != node) {
@@ -75,7 +75,7 @@ void Scheduler::run() {
     uint32_t current_time_ms = millis();
 
     Scheduler *node = s_firstNode;
-    while (node != nullptr) {
+    while (node != NULL) {
         node->checkTimer(current_time_ms);
         node = node->m_nextNode;
     }

@@ -79,7 +79,7 @@ private:
 public:
 
     CallbackScheduler() :
-            m_callback(nullptr) {};
+            m_callback(NULL) {};
 
     CallbackScheduler(Callback* callback) :
             m_callback(callback) {};
@@ -95,7 +95,7 @@ public:
 
 protected:
     void call() { //override;
-        if (m_callback != nullptr) m_callback->call();
+        if (m_callback != NULL) m_callback->call();
     }
 };
 
@@ -113,7 +113,7 @@ private:
 public:
 
     FunctionScheduler() :
-            m_functionCallback(nullptr) {};
+            m_functionCallback(NULL) {};
 
     FunctionScheduler(CallbackFunction function) :
             m_functionCallback(function) {};

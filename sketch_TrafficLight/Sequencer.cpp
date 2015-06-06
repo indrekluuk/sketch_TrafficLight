@@ -35,7 +35,7 @@ Sequencer::Sequencer() :
         m_sequenceIdentifier(SEQUENCE_STOPPED),
         m_sequenceStep(0),
         m_hasNextStep(false),
-        m_sequenceDoneCallback(nullptr)
+        m_sequenceDoneCallback(NULL)
 {
 }
 
@@ -95,7 +95,7 @@ void Sequencer::sequenceDone() {
 
 
 void Sequencer::callDone() {
-    if (m_sequenceDoneCallback != nullptr) {
+    if (m_sequenceDoneCallback != NULL) {
         m_sequenceDoneCallback->call();
     }
 }

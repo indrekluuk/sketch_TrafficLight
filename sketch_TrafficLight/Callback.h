@@ -27,7 +27,7 @@
 #ifndef Callback_h
 #define Callback_h
 
-#include "global.h"
+#include "SchedulerGlobals.h"
 
 
 class Callback {
@@ -47,7 +47,7 @@ private:
 
 public:
     FunctionCallback() :
-            m_callbackFunction(nullptr) {};
+            m_callbackFunction(NULL) {};
 
     FunctionCallback(CallbackFunction function) :
             m_callbackFunction(function) {};
@@ -58,7 +58,7 @@ public:
     }
 
     void call() {
-        if (m_callbackFunction != nullptr) m_callbackFunction();
+        if (m_callbackFunction != NULL) m_callbackFunction();
     };
 };
 
@@ -77,7 +77,7 @@ private:
 
 public:
     MethodCallback(TObject& object) :
-            m_object(object), m_callbackMethod(nullptr) {};
+            m_object(object), m_callbackMethod(NULL) {};
 
     MethodCallback(TObject& object, CallbackMethod callbackMethod) :
             m_object(object), m_callbackMethod(callbackMethod) {};
@@ -88,7 +88,7 @@ public:
     }
 
     void call() {
-        if (m_callbackMethod != nullptr) (m_object.*m_callbackMethod)();
+        if (m_callbackMethod != NULL) (m_object.*m_callbackMethod)();
     };
 };
 
