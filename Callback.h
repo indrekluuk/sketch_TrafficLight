@@ -37,6 +37,33 @@ public:
 
 
 
+class FunctionCallback : public Callback {
+
+public:
+    typedef void (*CallbackFunction)(void);
+
+private:
+    CallbackFunction m_callbackFunction;
+
+public:
+    FunctionCallback() :
+            m_callbackFunction(nullptr) {};
+
+    FunctionCallback(CallbackFunction function) :
+            m_callbackFunction(function) {};
+
+    FunctionCallback& set(CallbackFunction function) {
+        m_callbackFunction = function;
+        return *this;
+    }
+
+    void call() {
+        if (m_callbackFunction != nullptr) m_callbackFunction();
+    };
+};
+
+
+
 
 template<class TObject>
 class MethodCallback : public Callback {
@@ -61,11 +88,8 @@ public:
     }
 
     void call() {
-        if (m_callbackMethod != nullptr) {
-            (m_object.*m_callbackMethod)();
-        }
+        if (m_callbackMethod != nullptr) (m_object.*m_callbackMethod)();
     };
-
 };
 
 

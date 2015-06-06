@@ -108,29 +108,29 @@ public:
     typedef void (*CallbackFunction)(void);
 
 private:
-    CallbackFunction m_callbackFunction;
+    FunctionCallback m_functionCallback;
 
 public:
 
     FunctionCallbackScheduler() :
-            m_callbackFunction(nullptr) {};
+            m_functionCallback(nullptr) {};
 
     FunctionCallbackScheduler(CallbackFunction function) :
-            m_callbackFunction(function) {};
+            m_functionCallback(function) {};
 
 
     void callPeriodically(uint32_t time_ms, CallbackFunction function) {
-        m_callbackFunction = function;
+        m_functionCallback.set(function);
         Scheduler::runPeriodically(time_ms);
     }
     void callOnce(uint32_t time_ms, CallbackFunction function) {
-        m_callbackFunction = function;
+        m_functionCallback.set(function);
         Scheduler::runOnce(time_ms);
     }
 
 protected:
     void call() { //override;
-        if (m_callbackFunction != nullptr) m_callbackFunction();
+        m_functionCallback.call();
     }
 };
 
