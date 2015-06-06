@@ -51,7 +51,7 @@ public:
 
     Animator(TAnimatedObj &animatedObj);
 
-    bool isAnimation(uint8_t animationIdentifier);
+    bool isAnimationRunning(uint8_t animationIdentifier);
 
     void stopAnimation();
 
@@ -90,7 +90,7 @@ Animator<TAnimatedObj>::Animator(TAnimatedObj& animatedObj) :
 
 
 template<class TAnimatedObj>
-bool Animator<TAnimatedObj>::isAnimation(uint8_t animationIdentifier) {
+bool Animator<TAnimatedObj>::isAnimationRunning(uint8_t animationIdentifier) {
     return animationIdentifier == m_animationIdentifier;
 }
 

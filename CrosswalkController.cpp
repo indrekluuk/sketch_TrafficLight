@@ -49,7 +49,7 @@ void CrosswalkController::on() {
 }
 
 void CrosswalkController::buttonPressed() {
-    if (!m_animator.isAnimation(ANIMATION_BUTTON_PRESSED)) {
+    if (!m_animator.isAnimationRunning(ANIMATION_BUTTON_PRESSED)) {
         stopAnimation();
         runPedestrianButtonCycleAnimation();
     }
