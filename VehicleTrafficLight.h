@@ -41,7 +41,7 @@ class VehicleTrafficLight : public TrafficLightBase {
     Light m_yellowLight;
     Light m_greenLight;
 
-    MethodAnimator<VehicleTrafficLight> m_animator;
+    MethodSequencer<VehicleTrafficLight> m_sequencer;
 
 
 public:
@@ -79,10 +79,10 @@ private:
 
 
     void runStopSequenceAnimation(Callback& done);
-    void stopSequenceAnimationStep(Animator& animator, uint8_t step);
+    void stopSequenceAnimationStep(Sequencer & sequencer, uint8_t step);
 
     void runGoSequenceAnimation(Callback& done);
-    void goSequenceAnimationStep(Animator& animator, uint8_t step);
+    void goSequenceAnimationStep(Sequencer & sequencer, uint8_t step);
 
 
 };

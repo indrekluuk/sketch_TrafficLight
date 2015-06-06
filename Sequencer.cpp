@@ -23,80 +23,80 @@
  * THE SOFTWARE.
  *
  */
-#include "Animator.h"
+#include "Sequencer.h"
 
 
 
 
 
-Animator::Animator() :
-        m_animationNextCallback(*this, &Animator::initNextStep),
-        m_animationDelayScheduler(&m_animationNextCallback),
-        m_animationIdentifier(ANIMATION_STOPPED),
-        m_animationStep(0),
+Sequencer::Sequencer() :
+        m_sequenceNextCallback(*this, &Sequencer::initNextStep),
+        m_sequenceDelayScheduler(&m_sequenceNextCallback),
+        m_sequenceIdentifier(SEQUENCE_STOPPED),
+        m_sequenceStep(0),
         m_hasNextStep(false),
-        m_animationDoneCallback(nullptr)
+        m_sequenceDoneCallback(nullptr)
 {
 }
 
 
 
-bool Animator::isAnimationRunning(uint8_t animationIdentifier) {
-    return animationIdentifier == m_animationIdentifier;
+bool Sequencer::isSequenceRunning(uint8_t sequenceIdentifier) {
+    return sequenceIdentifier == m_sequenceIdentifier;
 }
 
 
-void Animator::stopAnimation() {
-    m_animationIdentifier = ANIMATION_STOPPED;
-    m_animationStep = 0;
-    m_animationDelayScheduler.clearTimer();
+void Sequencer::stopSequence() {
+    m_sequenceIdentifier = SEQUENCE_STOPPED;
+    m_sequenceStep = 0;
+    m_sequenceDelayScheduler.clearTimer();
 }
 
 
 
-void Animator::initAnimation(uint8_t animationIdentifier, Callback* done) {
-    m_animationIdentifier = animationIdentifier;
-    m_animationStep = 0;
-    m_animationDoneCallback = done;
+void Sequencer::initSequence(uint8_t sequenceIdentifier, Callback* done) {
+    m_sequenceIdentifier = sequenceIdentifier;
+    m_sequenceStep = 0;
+    m_sequenceDoneCallback = done;
     initNextStep();
 }
 
 
 
-void Animator::initNextStep() {
-    m_animationStep++;
+void Sequencer::initNextStep() {
+    m_sequenceStep++;
     m_hasNextStep = false;
     callNextStep();
     if (!m_hasNextStep) {
-        animationDone();
+        sequenceDone();
     }
 }
 
 
 
-void Animator::nextWithDelay(uint32_t time_ms) {
+void Sequencer::nextWithDelay(uint32_t time_ms) {
     m_hasNextStep = true;
-    m_animationDelayScheduler.runOnce(time_ms);
+    m_sequenceDelayScheduler.runOnce(time_ms);
 }
 
 
 
-Callback& Animator::nextWhenDone() {
+Callback&Sequencer::nextWhenDone() {
     m_hasNextStep = true;
-    return m_animationNextCallback;
+    return m_sequenceNextCallback;
 }
 
 
 
-void Animator::animationDone() {
-    stopAnimation();
+void Sequencer::sequenceDone() {
+    stopSequence();
     callDone();
 }
 
 
-void Animator::callDone() {
-    if (m_animationDoneCallback != nullptr) {
-        m_animationDoneCallback->call();
+void Sequencer::callDone() {
+    if (m_sequenceDoneCallback != nullptr) {
+        m_sequenceDoneCallback->call();
     }
 }
 

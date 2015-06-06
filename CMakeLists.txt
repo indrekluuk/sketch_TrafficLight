@@ -9,8 +9,8 @@ set(SOURCE_FILES
     intellij_files/Arduino.cpp
     intellij_files/Arduino.h
     intellij_files/main.cpp
-    Animator.cpp
-    Animator.h
+    Sequencer.cpp
+    Sequencer.h
     Callback.h
     Constants.h
     CrosswalkController.cpp

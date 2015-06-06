@@ -40,7 +40,7 @@ class PedestrianTrafficLight : public TrafficLightBase {
     Light m_redLight;
     Light m_greenLight;
 
-    MethodAnimator<PedestrianTrafficLight> m_animator;
+    MethodSequencer<PedestrianTrafficLight> m_sequencer;
 
 
 public:
@@ -74,7 +74,7 @@ private:
 
 
     void runStopSequenceAnimation(Callback& done);
-    void stopSequenceAnimationStep(Animator& animator, uint8_t step);
+    void stopSequenceAnimationStep(Sequencer & sequencer, uint8_t step);
 
 
 };

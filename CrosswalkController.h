@@ -27,7 +27,7 @@
 #ifndef CrosswalkController_h
 #define CrosswalkController_h
 
-#include "Animator.h"
+#include "Sequencer.h"
 #include "VehicleTrafficLight.h"
 #include "PedestrianTrafficLight.h"
 
@@ -39,7 +39,7 @@ class CrosswalkController {
     VehicleTrafficLight m_vehicleTrafficLight;
     PedestrianTrafficLight m_pedestrianTrafficLight;
 
-    MethodAnimator<CrosswalkController> m_animator;
+    MethodSequencer<CrosswalkController> m_sequencer;
 
 
 public:
@@ -58,7 +58,7 @@ public:
 private:
 
     void runPedestrianButtonCycleAnimation();
-    void pedestrianButtonCycleAnimationStep(Animator& animator, uint8_t step);
+    void pedestrianButtonCycleAnimationStep(Sequencer & sequencer, uint8_t step);
 
 };
 

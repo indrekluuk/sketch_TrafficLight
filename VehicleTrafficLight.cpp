@@ -29,7 +29,7 @@
 
 
 VehicleTrafficLight::VehicleTrafficLight(uint8_t redLedPin, uint8_t yellowLedPin, uint8_t greenLedPin) :
-        m_animator(*this), m_redLight(redLedPin), m_yellowLight(yellowLedPin), m_greenLight(greenLedPin) {
+        m_sequencer(*this), m_redLight(redLedPin), m_yellowLight(yellowLedPin), m_greenLight(greenLedPin) {
 
 }
 
@@ -66,7 +66,7 @@ void VehicleTrafficLight::night() {
 }
 
 void VehicleTrafficLight::stopAnimation() {
-    m_animator.stopAnimation();
+    m_sequencer.stopSequence();
 }
 
 
@@ -114,18 +114,18 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 void VehicleTrafficLight::runStopSequenceAnimation(Callback& done) {
-    m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &done, &VehicleTrafficLight::stopSequenceAnimationStep);
+    m_sequencer.startSequence(ANIMATION_STOP_TRAFFIC, &done, &VehicleTrafficLight::stopSequenceAnimationStep);
 }
 
-void VehicleTrafficLight::stopSequenceAnimationStep(Animator& animator, uint8_t step) {
+void VehicleTrafficLight::stopSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {
     switch (step) {
         case 1:
             setGreenPulsing();
-            animator.nextWithDelay(VECHILE_STOP_GREEN_BLINK_ms);
+            sequencer.nextWithDelay(VECHILE_STOP_GREEN_BLINK_ms);
             break;
         case 2:
             setYellow();
-            animator.nextWithDelay(VECHILE_STOP_YELLOW_ms);
+            sequencer.nextWithDelay(VECHILE_STOP_YELLOW_ms);
             break;
         case 3:
             setRed();
@@ -136,14 +136,14 @@ void VehicleTrafficLight::stopSequenceAnimationStep(Animator& animator, uint8_t 
 
 
 void VehicleTrafficLight::runGoSequenceAnimation(Callback& done) {
-    m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &done, &VehicleTrafficLight::goSequenceAnimationStep);
+    m_sequencer.startSequence(ANIMATION_GO_TRAFFIC, &done, &VehicleTrafficLight::goSequenceAnimationStep);
 }
 
-void VehicleTrafficLight::goSequenceAnimationStep(Animator& animator, uint8_t step) {
+void VehicleTrafficLight::goSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {
     switch (step) {
         case 1:
             setYellow();
-            animator.nextWithDelay(VECHILE_GO_YELLOW_ms);
+            sequencer.nextWithDelay(VECHILE_GO_YELLOW_ms);
             break;
         case 2:
             setGreen();

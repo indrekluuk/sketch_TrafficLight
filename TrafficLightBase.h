@@ -28,7 +28,7 @@
 #define TrafficLightBase_h
 
 
-#include "Animator.h"
+#include "Sequencer.h"
 
 
 class TrafficLightBase {
