@@ -39,7 +39,7 @@ public:
 
 
 template<class TObject>
-class CallbackTemplate : public Callback {
+class MethodCallback : public Callback {
 
 public:
     typedef void (TObject::*CallbackMethod)(void);
@@ -49,13 +49,13 @@ private:
     CallbackMethod m_callbackMethod;
 
 public:
-    CallbackTemplate(TObject& object) :
+    MethodCallback(TObject& object) :
             m_object(object), m_callbackMethod(nullptr) {};
 
-    CallbackTemplate(TObject& object, CallbackMethod callbackMethod) :
+    MethodCallback(TObject& object, CallbackMethod callbackMethod) :
             m_object(object), m_callbackMethod(callbackMethod) {};
 
-    CallbackTemplate& operator()(CallbackMethod callbackMethod) {
+    MethodCallback& set(CallbackMethod callbackMethod) {
         m_callbackMethod = callbackMethod;
         return *this;
     }

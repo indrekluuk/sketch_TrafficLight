@@ -120,36 +120,31 @@ public:
     typedef void (TCallbackObj::*CallbackMethod)();
 
 private:
-    TCallbackObj& m_callbackObj;
-    CallbackMethod m_callbackMethod;
+    MethodCallback<TCallbackObj> m_methodCallback;
 
 public:
 
     MethodCallbackScheduler(TCallbackObj& callbackObj) :
-            m_callbackObj(callbackObj), m_callbackMethod(nullptr) {};
+            m_methodCallback(callbackObj) {};
 
     MethodCallbackScheduler(TCallbackObj& callbackObj, CallbackMethod method) :
-            m_callbackObj(callbackObj), m_callbackMethod(method) {};
+            m_methodCallback(callbackObj, method) {};
 
 
     void callPeriodically(uint32_t time_ms, CallbackMethod method) {
-        initCallback(method);
+        m_methodCallback.set(method);
         Scheduler::runPeriodically(time_ms);
     }
     void callOnce(uint32_t time_ms, CallbackMethod method) {
-        initCallback(method);
+        m_methodCallback.set(method);
         Scheduler::runOnce(time_ms);
     }
 
 protected:
     void call() { //override;
-        if (m_callbackMethod != nullptr) (m_callbackObj.*m_callbackMethod)();
+        m_methodCallback.call();
     }
 
-private:
-    void initCallback(CallbackMethod method) {
-        m_callbackMethod = method;
-    }
 };
 
 

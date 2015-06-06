@@ -41,7 +41,7 @@ public:
     MethodCallbackScheduler<Animator> m_animationScheduler;
     TAnimatedObj& m_animatedObj;
     uint8_t m_animationIdentifier;
-    CallbackTemplate<Animator> m_otherAnimationDoneCallback;
+    MethodCallback<Animator> m_otherAnimationDoneCallback;
     AnimationStepMethod m_animationStepMethod;
     uint8_t m_animationStep;
     bool m_hasNextStep;
