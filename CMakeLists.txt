@@ -9,6 +9,7 @@ set(SOURCE_FILES
     intellij_files/Arduino.cpp
     intellij_files/Arduino.h
     intellij_files/main.cpp
+    Animator.cpp
     Animator.h
     Callback.h
     Constants.h

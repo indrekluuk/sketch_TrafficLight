@@ -30,136 +30,81 @@
 
 #include "Scheduler.h"
 
-template<class TAnimatedObj>
 class Animator {
 
 public:
-    typedef void (TAnimatedObj::*AnimationStepMethod)(uint8_t step);
 
     static const uint8_t ANIMATION_STOPPED = 0;
 
     MethodCallback<Animator> m_animationNextCallback;
     CallbackScheduler m_animationDelayScheduler;
-    TAnimatedObj& m_animatedObj;
     uint8_t m_animationIdentifier;
-    AnimationStepMethod m_animationStepMethod;
     uint8_t m_animationStep;
     bool m_hasNextStep;
     Callback* m_animationDoneCallback;
 
 public:
 
-    Animator(TAnimatedObj &animatedObj);
+    Animator();
 
     bool isAnimationRunning(uint8_t animationIdentifier);
 
     void stopAnimation();
 
-
-
-    void startAnimation(uint8_t animationIdentifier, AnimationStepMethod animationStep);
-
-    void startAnimation(uint8_t animationIdentifier, Callback* done, AnimationStepMethod animationStep);
-
     void nextWithDelay(uint32_t time_ms);
-
     Callback& nextWhenDone();
 
-    void animationDone();
+protected:
+
+    void initAnimation(uint8_t animationIdentifier, Callback* done);
+    virtual void callNextStep() = 0;
 
 private:
-    void nextStep();
+
+    void initNextStep();
+    void animationDone();
     void callDone();
 
 };
 
 
-template<class TAnimatedObj>
-Animator<TAnimatedObj>::Animator(TAnimatedObj& animatedObj) :
-        m_animationNextCallback(*this, &Animator::nextStep),
-        m_animationDelayScheduler(&m_animationNextCallback),
-        m_animatedObj(animatedObj),
-        m_animationIdentifier(ANIMATION_STOPPED),
-        m_animationStepMethod(nullptr),
-        m_animationStep(0),
-        m_hasNextStep(false),
-        m_animationDoneCallback(nullptr)
-{
-
-}
 
 
 template<class TAnimatedObj>
-bool Animator<TAnimatedObj>::isAnimationRunning(uint8_t animationIdentifier) {
-    return animationIdentifier == m_animationIdentifier;
-}
+class MethodCallbackAnimator : public Animator {
 
-template<class TAnimatedObj>
-void Animator<TAnimatedObj>::stopAnimation() {
-    m_animationIdentifier = ANIMATION_STOPPED;
-    m_animationStep = 0;
-    m_animationDelayScheduler.clearTimer();
-}
+public:
+    typedef void (TAnimatedObj::*AnimationStepMethod)(uint8_t step);
+
+private:
+    TAnimatedObj& m_animatedObj;
+    AnimationStepMethod m_animationStepMethod;
 
 
-template<class TAnimatedObj>
-void Animator<TAnimatedObj>::startAnimation(uint8_t animationIdentifier,
-                                            AnimationStepMethod animationStep) {
-    startAnimation(animationIdentifier, nullptr, animationStep);
-}
+public:
+    MethodCallbackAnimator(TAnimatedObj& animatedObj) :
+            m_animatedObj(animatedObj), m_animationStepMethod(nullptr)
+    {}
 
-template<class TAnimatedObj>
-void Animator<TAnimatedObj>::startAnimation(uint8_t animationIdentifier,
-                                            Callback* done,
-                                            AnimationStepMethod animationStep)
-{
-    m_animationIdentifier = animationIdentifier;
-    m_animationStepMethod = animationStep;
-    m_animationStep = 0;
-    m_animationDoneCallback = done;
-    nextStep();
-}
-
-
-template<class TAnimatedObj>
-void Animator<TAnimatedObj>::nextStep() {
-    m_animationStep++;
-    m_hasNextStep = false;
-    if (m_animationStep != nullptr) {
-        (m_animatedObj.*m_animationStepMethod)(m_animationStep);
+    void startAnimation(uint8_t animationIdentifier, AnimationStepMethod animationStepMethod) {
+        startAnimation(animationIdentifier, nullptr, animationStepMethod);
     }
-    if (!m_hasNextStep) {
-        animationDone();
+
+    void startAnimation(uint8_t animationIdentifier, Callback* done, AnimationStepMethod animationStepMethod) {
+        m_animationStepMethod = animationStepMethod;
+        initAnimation(animationIdentifier, done);
     }
-}
 
-
-template<class TAnimatedObj>
-void Animator<TAnimatedObj>::nextWithDelay(uint32_t time_ms) {
-    m_hasNextStep = true;
-    m_animationDelayScheduler.runOnce(time_ms);
-}
-
-
-template<class TAnimatedObj>
-Callback& Animator<TAnimatedObj>::nextWhenDone() {
-    m_hasNextStep = true;
-    return m_animationNextCallback;
-}
-
-
-template<class TAnimatedObj>
-void Animator<TAnimatedObj>::animationDone() {
-    stopAnimation();
-    callDone();
-}
-
-template<class TAnimatedObj>
-void Animator<TAnimatedObj>::callDone() {
-    if (m_animationDoneCallback != nullptr) {
-        m_animationDoneCallback->call();
+    void callNextStep() { //override;
+        if (m_animationStep != nullptr) {
+            (m_animatedObj.*m_animationStepMethod)(m_animationStep);
+        }
     }
-}
+
+};
+
+
+
 
 
 #endif

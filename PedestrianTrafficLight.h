@@ -40,7 +40,7 @@ class PedestrianTrafficLight : public TrafficLightBase {
     Light m_redLight;
     Light m_greenLight;
 
-    Animator<PedestrianTrafficLight> m_animator;
+    MethodCallbackAnimator<PedestrianTrafficLight> m_animator;
 
 
 public:
