@@ -71,6 +71,37 @@ private:
 
 
 
+class CallbackScheduler : public Scheduler {
+
+private:
+    Callback* m_callback;
+
+public:
+
+    CallbackScheduler() :
+            m_callback(nullptr) {};
+
+    CallbackScheduler(Callback* callback) :
+            m_callback(callback) {};
+
+    void callPeriodically(uint32_t time_ms, Callback* callback) {
+        m_callback = callback;
+        Scheduler::runPeriodically(time_ms);
+    }
+    void callOnce(uint32_t time_ms, Callback* callback) {
+        m_callback = callback;
+        Scheduler::runOnce(time_ms);
+    }
+
+protected:
+    void call() { //override;
+        if (m_callback != nullptr) m_callback->call();
+    }
+};
+
+
+
+
 class FunctionCallbackScheduler : public Scheduler {
 
 public:
@@ -88,23 +119,18 @@ public:
             m_callbackFunction(function) {};
 
 
-    virtual void callPeriodically(uint32_t time_ms, CallbackFunction function) {
-        initCallback(function);
+    void callPeriodically(uint32_t time_ms, CallbackFunction function) {
+        m_callbackFunction = function;
         Scheduler::runPeriodically(time_ms);
     }
-    virtual void callOnce(uint32_t time_ms, CallbackFunction function) {
-        initCallback(function);
+    void callOnce(uint32_t time_ms, CallbackFunction function) {
+        m_callbackFunction = function;
         Scheduler::runOnce(time_ms);
     }
 
 protected:
     void call() { //override;
         if (m_callbackFunction != nullptr) m_callbackFunction();
-    }
-
-private:
-    void initCallback(CallbackFunction function) {
-        m_callbackFunction = function;
     }
 };
 
@@ -144,7 +170,6 @@ protected:
     void call() { //override;
         m_methodCallback.call();
     }
-
 };
 
 
