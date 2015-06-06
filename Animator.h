@@ -71,7 +71,7 @@ private:
 
 
 template<class TAnimatedObj>
-class ObjectMethodAnimator : public Animator {
+class MethodAnimator : public Animator {
 
 public:
     typedef void (TAnimatedObj::*AnimationStepMethod)(uint8_t step);
@@ -82,7 +82,7 @@ private:
 
 
 public:
-    ObjectMethodAnimator(TAnimatedObj& animatedObj) :
+    MethodAnimator(TAnimatedObj& animatedObj) :
             m_animatedObj(animatedObj), m_animationStepMethod(nullptr)
     {}
 

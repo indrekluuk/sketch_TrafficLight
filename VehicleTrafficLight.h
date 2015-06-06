@@ -41,7 +41,7 @@ class VehicleTrafficLight : public TrafficLightBase {
     Light m_yellowLight;
     Light m_greenLight;
 
-    ObjectMethodAnimator<VehicleTrafficLight> m_animator;
+    MethodAnimator<VehicleTrafficLight> m_animator;
 
 
 public:

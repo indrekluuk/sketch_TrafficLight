@@ -37,7 +37,6 @@ Animator::Animator() :
         m_hasNextStep(false),
         m_animationDoneCallback(nullptr)
 {
-
 }
 
 
