@@ -79,29 +79,29 @@ void CrosswalkController::runPedestrianButtonCycleAnimation() {
     m_animator.startAnimation(ANIMATION_BUTTON_PRESSED, &CrosswalkController::pedestrianButtonCycleAnimationStep);
 }
 
-void CrosswalkController::pedestrianButtonCycleAnimationStep(uint8_t step) {
+void CrosswalkController::pedestrianButtonCycleAnimationStep(Animator& animator, uint8_t step) {
     switch (step) {
         case 1:
             m_pedestrianTrafficLight.forceStop();
-            m_vehicleTrafficLight.stop(m_animator.nextWhenDone());
+            m_vehicleTrafficLight.stop(animator.nextWhenDone());
             break;
         case 2:
-            m_animator.nextWithDelay(PEDESTRIAN_GO_DELAY_ms);
+            animator.nextWithDelay(PEDESTRIAN_GO_DELAY_ms);
             break;
         case 3:
-            m_pedestrianTrafficLight.go(m_animator.nextWhenDone());
+            m_pedestrianTrafficLight.go(animator.nextWhenDone());
             break;
         case 4:
-            m_animator.nextWithDelay(PEDESTRIAN_GO_GREEN_ms);
+            animator.nextWithDelay(PEDESTRIAN_GO_GREEN_ms);
             break;
         case 5:
-            m_pedestrianTrafficLight.stop(m_animator.nextWhenDone());
+            m_pedestrianTrafficLight.stop(animator.nextWhenDone());
             break;
         case 6:
-            m_animator.nextWithDelay(VECHILE_GO_DELAY_ms);
+            animator.nextWithDelay(VECHILE_GO_DELAY_ms);
             break;
         case 7:
-            m_vehicleTrafficLight.go(m_animator.nextWhenDone());
+            m_vehicleTrafficLight.go(animator.nextWhenDone());
             break;
         case 8:
             break;

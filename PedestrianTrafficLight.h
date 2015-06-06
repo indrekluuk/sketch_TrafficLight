@@ -74,7 +74,7 @@ private:
 
 
     void runStopSequenceAnimation(Callback& done);
-    void stopSequenceAnimationStep(uint8_t step);
+    void stopSequenceAnimationStep(Animator& animator, uint8_t step);
 
 
 };

@@ -70,11 +70,49 @@ private:
 
 
 
+
+
+class FunctionAnimator : public Animator {
+
+public:
+    typedef void (*NextStepFunction)(Animator& animator, uint8_t step);
+
+
+private:
+    NextStepFunction m_animationStepFunction;
+
+public:
+    FunctionAnimator() : m_animationStepFunction(nullptr) {}
+
+    void startAnimation(uint8_t animationIdentifier, NextStepFunction animationStepFunction) {
+        startAnimation(animationIdentifier, nullptr, animationStepFunction);
+    }
+
+    void startAnimation(uint8_t animationIdentifier, Callback* done, NextStepFunction animationStepFunction) {
+        m_animationStepFunction = animationStepFunction;
+        initAnimation(animationIdentifier, done);
+    }
+
+protected:
+
+    void callNextStep() { //override;
+        if (m_animationStepFunction != nullptr) {
+            m_animationStepFunction(*this, m_animationStep);
+        }
+    }
+
+};
+
+
+
+
+
+
 template<class TAnimatedObj>
 class MethodAnimator : public Animator {
 
 public:
-    typedef void (TAnimatedObj::*AnimationStepMethod)(uint8_t step);
+    typedef void (TAnimatedObj::*AnimationStepMethod)(Animator& animator, uint8_t step);
 
 private:
     TAnimatedObj& m_animatedObj;
@@ -95,9 +133,11 @@ public:
         initAnimation(animationIdentifier, done);
     }
 
+protected:
+
     void callNextStep() { //override;
-        if (m_animationStep != nullptr) {
-            (m_animatedObj.*m_animationStepMethod)(m_animationStep);
+        if (m_animationStepMethod != nullptr) {
+            (m_animatedObj.*m_animationStepMethod)(*this, m_animationStep);
         }
     }
 

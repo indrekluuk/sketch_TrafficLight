@@ -117,15 +117,15 @@ void VehicleTrafficLight::runStopSequenceAnimation(Callback& done) {
     m_animator.startAnimation(ANIMATION_STOP_TRAFFIC, &done, &VehicleTrafficLight::stopSequenceAnimationStep);
 }
 
-void VehicleTrafficLight::stopSequenceAnimationStep(uint8_t step) {
+void VehicleTrafficLight::stopSequenceAnimationStep(Animator& animator, uint8_t step) {
     switch (step) {
         case 1:
             setGreenPulsing();
-            m_animator.nextWithDelay(VECHILE_STOP_GREEN_BLINK_ms);
+            animator.nextWithDelay(VECHILE_STOP_GREEN_BLINK_ms);
             break;
         case 2:
             setYellow();
-            m_animator.nextWithDelay(VECHILE_STOP_YELLOW_ms);
+            animator.nextWithDelay(VECHILE_STOP_YELLOW_ms);
             break;
         case 3:
             setRed();
@@ -139,11 +139,11 @@ void VehicleTrafficLight::runGoSequenceAnimation(Callback& done) {
     m_animator.startAnimation(ANIMATION_GO_TRAFFIC, &done, &VehicleTrafficLight::goSequenceAnimationStep);
 }
 
-void VehicleTrafficLight::goSequenceAnimationStep(uint8_t step) {
+void VehicleTrafficLight::goSequenceAnimationStep(Animator& animator, uint8_t step) {
     switch (step) {
         case 1:
             setYellow();
-            m_animator.nextWithDelay(VECHILE_GO_YELLOW_ms);
+            animator.nextWithDelay(VECHILE_GO_YELLOW_ms);
             break;
         case 2:
             setGreen();

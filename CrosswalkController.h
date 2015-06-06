@@ -58,7 +58,7 @@ public:
 private:
 
     void runPedestrianButtonCycleAnimation();
-    void pedestrianButtonCycleAnimationStep(uint8_t step);
+    void pedestrianButtonCycleAnimationStep(Animator& animator, uint8_t step);
 
 };
 
