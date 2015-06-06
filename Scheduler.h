@@ -50,8 +50,8 @@ public:
 
     static void run();
 
-    void startTimerPeriodically(uint32_t time_ms);
-    void startTimerOnce(uint32_t time_ms);
+    void runPeriodically(uint32_t time_ms);
+    void runOnce(uint32_t time_ms);
     void clearTimer();
 
 private:
@@ -88,13 +88,13 @@ public:
             m_callbackFunction(function) {};
 
 
-    void runPeriodically(uint32_t time_ms, CallbackFunction function) {
+    virtual void callPeriodically(uint32_t time_ms, CallbackFunction function) {
         initCallback(function);
-        startTimerPeriodically(time_ms);
+        Scheduler::runPeriodically(time_ms);
     }
-    void runOnce(uint32_t time_ms, CallbackFunction function) {
+    virtual void callOnce(uint32_t time_ms, CallbackFunction function) {
         initCallback(function);
-        startTimerOnce(time_ms);
+        Scheduler::runOnce(time_ms);
     }
 
 protected:
@@ -132,13 +132,13 @@ public:
             m_callbackObj(callbackObj), m_callbackMethod(method) {};
 
 
-    void runPeriodically(uint32_t time_ms, CallbackMethod method) {
+    void callPeriodically(uint32_t time_ms, CallbackMethod method) {
         initCallback(method);
-        startTimerPeriodically(time_ms);
+        Scheduler::runPeriodically(time_ms);
     }
-    void runOnce(uint32_t time_ms, CallbackMethod method) {
+    void callOnce(uint32_t time_ms, CallbackMethod method) {
         initCallback(method);
-        startTimerOnce(time_ms);
+        Scheduler::runOnce(time_ms);
     }
 
 protected:

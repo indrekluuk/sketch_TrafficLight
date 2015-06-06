@@ -137,7 +137,7 @@ void Animator<TAnimatedObj>::nextStep() {
 template<class TAnimatedObj>
 void Animator<TAnimatedObj>::nextWithDelay(uint32_t time_ms) {
     m_hasNextStep = true;
-    m_animationScheduler.startTimerOnce(time_ms);
+    m_animationScheduler.runOnce(time_ms);
 }
 
 

@@ -104,12 +104,12 @@ bool Scheduler::isReady(const uint32_t &current_time_ms) {
 
 
 
-void Scheduler::startTimerPeriodically(uint32_t time_ms) {
+void Scheduler::runPeriodically(uint32_t time_ms) {
     m_isRunOnce = false;
     startTimer(time_ms);
 }
 
-void Scheduler::startTimerOnce(uint32_t time_ms) {
+void Scheduler::runOnce(uint32_t time_ms) {
     m_isRunOnce = true;
     startTimer(time_ms);
 }

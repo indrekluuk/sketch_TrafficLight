@@ -54,7 +54,7 @@ void Light::off() {
 
 void Light::pulse() {
     toggle();
-    m_pulseScheduler.startTimerPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms);
+    m_pulseScheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms);
 }
 
 
