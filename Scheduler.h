@@ -102,7 +102,7 @@ protected:
 
 
 
-class FunctionCallbackScheduler : public Scheduler {
+class FunctionScheduler : public Scheduler {
 
 public:
     typedef void (*CallbackFunction)(void);
@@ -112,10 +112,10 @@ private:
 
 public:
 
-    FunctionCallbackScheduler() :
+    FunctionScheduler() :
             m_functionCallback(nullptr) {};
 
-    FunctionCallbackScheduler(CallbackFunction function) :
+    FunctionScheduler(CallbackFunction function) :
             m_functionCallback(function) {};
 
 
@@ -140,7 +140,7 @@ protected:
 
 
 template <class TCallbackObj>
-class MethodCallbackScheduler : public Scheduler {
+class MethodScheduler : public Scheduler {
 
 public:
     typedef void (TCallbackObj::*CallbackMethod)();
@@ -150,10 +150,10 @@ private:
 
 public:
 
-    MethodCallbackScheduler(TCallbackObj& callbackObj) :
+    MethodScheduler(TCallbackObj& callbackObj) :
             m_methodCallback(callbackObj) {};
 
-    MethodCallbackScheduler(TCallbackObj& callbackObj, CallbackMethod method) :
+    MethodScheduler(TCallbackObj& callbackObj, CallbackMethod method) :
             m_methodCallback(callbackObj, method) {};
 
 

@@ -39,7 +39,7 @@ class CrosswalkController {
     VehicleTrafficLight m_vehicleTrafficLight;
     PedestrianTrafficLight m_pedestrianTrafficLight;
 
-    MethodCallbackAnimator<CrosswalkController> m_animator;
+    ObjectMethodAnimator<CrosswalkController> m_animator;
 
 
 public:
