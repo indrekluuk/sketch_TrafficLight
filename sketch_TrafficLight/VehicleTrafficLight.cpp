@@ -29,7 +29,7 @@
 
 
 VehicleTrafficLight::VehicleTrafficLight(uint8_t redLedPin, uint8_t yellowLedPin, uint8_t greenLedPin) :
-        m_sequencer(*this), m_redLight(redLedPin), m_yellowLight(yellowLedPin), m_greenLight(greenLedPin) {
+        m_sequencer(this), m_redLight(redLedPin), m_yellowLight(yellowLedPin), m_greenLight(greenLedPin) {
 
 }
 
@@ -114,7 +114,7 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 void VehicleTrafficLight::runStopSequenceAnimation(Callback& done) {
-    m_sequencer.startSequence(ANIMATION_STOP_TRAFFIC, &done, &VehicleTrafficLight::stopSequenceAnimationStep);
+    m_sequencer.set(&VehicleTrafficLight::stopSequenceAnimationStep).startSequence(ANIMATION_STOP_TRAFFIC, &done);
 }
 
 void VehicleTrafficLight::stopSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {
@@ -136,7 +136,7 @@ void VehicleTrafficLight::stopSequenceAnimationStep(Sequencer & sequencer, uint8
 
 
 void VehicleTrafficLight::runGoSequenceAnimation(Callback& done) {
-    m_sequencer.startSequence(ANIMATION_GO_TRAFFIC, &done, &VehicleTrafficLight::goSequenceAnimationStep);
+    m_sequencer.set(&VehicleTrafficLight::goSequenceAnimationStep).startSequence(ANIMATION_GO_TRAFFIC, &done);
 }
 
 void VehicleTrafficLight::goSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {

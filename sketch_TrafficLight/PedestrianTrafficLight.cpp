@@ -29,7 +29,7 @@
 
 
 PedestrianTrafficLight::PedestrianTrafficLight(uint8_t redLedPin, uint8_t greenLedPin) :
-        m_sequencer(*this), m_redLight(redLedPin), m_greenLight(greenLedPin) {
+        m_sequencer(this), m_redLight(redLedPin), m_greenLight(greenLedPin) {
 
 }
 
@@ -93,7 +93,7 @@ void PedestrianTrafficLight::setGreenPulsing() {
 
 
 void PedestrianTrafficLight::runStopSequenceAnimation(Callback& done) {
-    m_sequencer.startSequence(ANIMATION_STOP_PEDESTRIANS, &done, &PedestrianTrafficLight::stopSequenceAnimationStep);
+    m_sequencer.set(&PedestrianTrafficLight::stopSequenceAnimationStep).startSequence(ANIMATION_STOP_PEDESTRIANS, &done);
 }
 
 void PedestrianTrafficLight::stopSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {

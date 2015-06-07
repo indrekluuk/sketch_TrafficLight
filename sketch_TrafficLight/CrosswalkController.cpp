@@ -29,7 +29,7 @@
 
 
 CrosswalkController::CrosswalkController(uint8_t red1, uint8_t yellow1, uint8_t green1, uint8_t red2, uint8_t green2) :
-        m_sequencer(*this),
+        m_sequencer(this),
         m_vehicleTrafficLight(red1, yellow1, green1),
         m_pedestrianTrafficLight(red2, green2)
 {
@@ -76,7 +76,7 @@ void CrosswalkController::stopAnimation() {
 
 
 void CrosswalkController::runPedestrianButtonCycleAnimation() {
-    m_sequencer.startSequence(ANIMATION_BUTTON_PRESSED, &CrosswalkController::pedestrianButtonCycleAnimationStep);
+    m_sequencer.set(&CrosswalkController::pedestrianButtonCycleAnimationStep).startSequence(ANIMATION_BUTTON_PRESSED);
 }
 
 void CrosswalkController::pedestrianButtonCycleAnimationStep(Sequencer & sequencer, uint8_t step) {

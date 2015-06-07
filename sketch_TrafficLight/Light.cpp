@@ -32,7 +32,7 @@
 
 Light::Light(uint8_t pin) :
         m_ledPin(pin),
-        m_pulseScheduler(*this, &Light::toggle),
+        m_pulseScheduler(this, &Light::toggle),
         m_isLedOn(false)
 {
     pinMode(m_ledPin, OUTPUT);
