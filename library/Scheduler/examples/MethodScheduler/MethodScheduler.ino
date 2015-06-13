@@ -24,56 +24,59 @@
  *
  */
 
-#include "Light.h"
-#include "Constants.h"
-#include <Arduino.h>
+#include <Scheduler.h>
 
 
 
-Light::Light(uint8_t pin) :
-        m_ledPin(pin),
-        m_pulseScheduler(this, &Light::toggle),
-        m_isLedOn(false)
-{
-    pinMode(m_ledPin, OUTPUT);
-    off();
+class TimedSerialOutput {
+  
+private:
+
+  char* m_outputPrefix;
+  int m_interval;
+  // every object instance will have its own private scheduler
+  MethodScheduler<TimedSerialOutput> m_scheduler;
+  
+public:
+  
+  TimedSerialOutput(char* prefix) : 
+        m_outputPrefix(prefix), 
+        m_interval(0), 
+        // Init MethodScheduler with object whose methods are to be called
+        m_scheduler(this) 
+  {}
+  
+  // "MethodScheduler" calls object's method and therefore 
+  // all object variables are accessible on callback
+  void doOutput() {
+    Serial.print(m_outputPrefix);
+    Serial.print(m_interval);
+    Serial.println(" millisecond tick");
+  }
+  
+  void startOutput(unsigned long interval) {
+    m_interval = interval;
+    m_scheduler.set(&TimedSerialOutput::doOutput).runPeriodically(interval);
+  }
+};
+
+
+
+TimedSerialOutput serial1("object 1: ");
+TimedSerialOutput serial2("object 2: ");
+
+
+
+void setup() {
+  Serial.begin(9600);
+  // objects operate separately with their own intervals
+  serial1.startOutput(2000);
+  serial2.startOutput(500);
 }
 
 
-void Light::on() {
-    m_pulseScheduler.stop();
-    setLedOn();
-}
-
-
-void Light::off() {
-    m_pulseScheduler.stop();
-    setLedOff();
-}
-
-
-void Light::pulse() {
-    toggle();
-    m_pulseScheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms);
-}
-
-
-void Light::toggle() {
-    if (m_isLedOn) {
-        setLedOff();
-    } else {
-        setLedOn();
-    }
-}
-
-
-void Light::setLedOn() {
-    m_isLedOn = true;
-    digitalWrite(m_ledPin, HIGH);
-}
-
-void Light::setLedOff() {
-    m_isLedOn = false;
-    digitalWrite(m_ledPin, LOW);
+void loop() {
+  // run scheduler timing checks
+  Scheduler::run();
 }
 

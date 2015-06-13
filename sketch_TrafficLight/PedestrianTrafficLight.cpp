@@ -65,7 +65,7 @@ void PedestrianTrafficLight::night() {
 }
 
 void PedestrianTrafficLight::stopAnimation() {
-    m_sequencer.stopSequence();
+    m_sequencer.stop();
 }
 
 
@@ -93,7 +93,7 @@ void PedestrianTrafficLight::setGreenPulsing() {
 
 
 void PedestrianTrafficLight::runStopSequenceAnimation(Callback& done) {
-    m_sequencer.set(&PedestrianTrafficLight::stopSequenceAnimationStep).startSequence(ANIMATION_STOP_PEDESTRIANS, &done);
+    m_sequencer.set(&PedestrianTrafficLight::stopSequenceAnimationStep).start(ANIMATION_STOP_PEDESTRIANS, &done);
 }
 
 void PedestrianTrafficLight::stopSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {

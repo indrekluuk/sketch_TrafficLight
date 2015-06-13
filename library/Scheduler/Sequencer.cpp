@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  *
  */
+
 #include "Sequencer.h"
 
 
@@ -41,26 +42,40 @@ Sequencer::Sequencer() :
 
 
 
-bool Sequencer::isSequenceRunning(uint8_t sequenceIdentifier) {
-    return sequenceIdentifier == m_sequenceIdentifier;
+void Sequencer::start() {
+    start(SEQUENCE_UNDEFINED, NULL);
 }
 
-
-void Sequencer::stopSequence() {
-    m_sequenceIdentifier = SEQUENCE_STOPPED;
-    m_sequenceStep = 0;
-    m_sequenceDelayScheduler.clearTimer();
+void Sequencer::start(uint8_t sequenceIdentifier) {
+    start(sequenceIdentifier, NULL);
 }
 
+void Sequencer::start(Callback* done) {
+    start(SEQUENCE_UNDEFINED, done);
+}
 
-
-void Sequencer::initSequence(uint8_t sequenceIdentifier, Callback* done) {
+void Sequencer::start(uint8_t sequenceIdentifier, Callback* done) {
     m_sequenceIdentifier = sequenceIdentifier;
     m_sequenceStep = 0;
     m_sequenceDoneCallback = done;
     initNextStep();
 }
 
+
+bool Sequencer::isRunning() {
+    return SEQUENCE_STOPPED != m_sequenceIdentifier;
+}
+
+bool Sequencer::isRunning(uint8_t sequenceIdentifier) {
+    return sequenceIdentifier == m_sequenceIdentifier;
+}
+
+
+void Sequencer::stop() {
+    m_sequenceIdentifier = SEQUENCE_STOPPED;
+    m_sequenceStep = 0;
+    m_sequenceDelayScheduler.stop();
+}
 
 
 void Sequencer::initNextStep() {
@@ -89,7 +104,7 @@ Callback&Sequencer::nextWhenDone() {
 
 
 void Sequencer::sequenceDone() {
-    stopSequence();
+    stop();
     callDone();
 }
 

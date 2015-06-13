@@ -49,7 +49,7 @@ void CrosswalkController::on() {
 }
 
 void CrosswalkController::buttonPressed() {
-    if (!m_sequencer.isSequenceRunning(ANIMATION_BUTTON_PRESSED)) {
+    if (!m_sequencer.isRunning(ANIMATION_BUTTON_PRESSED)) {
         stopAnimation();
         runPedestrianButtonCycleAnimation();
     }
@@ -65,7 +65,7 @@ void CrosswalkController::night() {
 
 
 void CrosswalkController::stopAnimation() {
-    m_sequencer.stopSequence();
+    m_sequencer.stop();
     m_vehicleTrafficLight.stopAnimation();
     m_pedestrianTrafficLight.stopAnimation();
 }
@@ -76,7 +76,7 @@ void CrosswalkController::stopAnimation() {
 
 
 void CrosswalkController::runPedestrianButtonCycleAnimation() {
-    m_sequencer.set(&CrosswalkController::pedestrianButtonCycleAnimationStep).startSequence(ANIMATION_BUTTON_PRESSED);
+    m_sequencer.set(&CrosswalkController::pedestrianButtonCycleAnimationStep).start(ANIMATION_BUTTON_PRESSED);
 }
 
 void CrosswalkController::pedestrianButtonCycleAnimationStep(Sequencer & sequencer, uint8_t step) {

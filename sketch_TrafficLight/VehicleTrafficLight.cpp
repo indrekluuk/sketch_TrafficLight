@@ -66,7 +66,7 @@ void VehicleTrafficLight::night() {
 }
 
 void VehicleTrafficLight::stopAnimation() {
-    m_sequencer.stopSequence();
+    m_sequencer.stop();
 }
 
 
@@ -114,7 +114,7 @@ void VehicleTrafficLight::setYellowPulsing() {
 
 
 void VehicleTrafficLight::runStopSequenceAnimation(Callback& done) {
-    m_sequencer.set(&VehicleTrafficLight::stopSequenceAnimationStep).startSequence(ANIMATION_STOP_TRAFFIC, &done);
+    m_sequencer.set(&VehicleTrafficLight::stopSequenceAnimationStep).start(ANIMATION_STOP_TRAFFIC, &done);
 }
 
 void VehicleTrafficLight::stopSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {
@@ -136,7 +136,7 @@ void VehicleTrafficLight::stopSequenceAnimationStep(Sequencer & sequencer, uint8
 
 
 void VehicleTrafficLight::runGoSequenceAnimation(Callback& done) {
-    m_sequencer.set(&VehicleTrafficLight::goSequenceAnimationStep).startSequence(ANIMATION_GO_TRAFFIC, &done);
+    m_sequencer.set(&VehicleTrafficLight::goSequenceAnimationStep).start(ANIMATION_GO_TRAFFIC, &done);
 }
 
 void VehicleTrafficLight::goSequenceAnimationStep(Sequencer & sequencer, uint8_t step) {

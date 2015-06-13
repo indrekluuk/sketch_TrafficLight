@@ -34,7 +34,18 @@ Scheduler::Scheduler() :
         m_nextNode(NULL),
         m_timer_ms(0),
         m_previousTime_ms(0),
-        m_isRunOnce(true)
+        m_isRunOnce(true),
+        m_callback(NULL)
+{
+    link();
+}
+
+Scheduler::Scheduler(Callback * callback) :
+        m_nextNode(NULL),
+        m_timer_ms(0),
+        m_previousTime_ms(0),
+        m_isRunOnce(true),
+        m_callback(callback)
 {
     link();
 }
@@ -70,7 +81,6 @@ Scheduler *Scheduler::getNodeBefore(Scheduler *node) {
 }
 
 
-
 void Scheduler::run() {
     uint32_t current_time_ms = millis();
 
@@ -84,7 +94,7 @@ void Scheduler::run() {
 void Scheduler::checkTimer(uint32_t current_time_ms) {
     if (isReady(current_time_ms)) {
         if (m_isRunOnce) {
-            clearTimer();
+            stop();
         }
         call();
     }
@@ -94,7 +104,7 @@ bool Scheduler::isReady(const uint32_t &current_time_ms) {
     if (m_timer_ms == 0) return false;
 
     uint32_t elapsed_time_ms = current_time_ms - m_previousTime_ms;
-    if (elapsed_time_ms > m_timer_ms) {
+    if (elapsed_time_ms >= m_timer_ms) {
         m_previousTime_ms = m_previousTime_ms + m_timer_ms;
         return true;
     } else {
@@ -102,7 +112,27 @@ bool Scheduler::isReady(const uint32_t &current_time_ms) {
     }
 }
 
+void Scheduler::call() {
+    if (m_callback != NULL) m_callback->call();
+}
 
+
+
+int Scheduler::getCount() {
+    int count = 0;
+    Scheduler *node = s_firstNode;
+    while (node != NULL) {
+        count++;
+        node = node->m_nextNode;
+    }
+    return count;
+}
+
+
+Scheduler& Scheduler::set(Callback* callback) {
+    m_callback = callback;
+    return *this;
+}
 
 void Scheduler::runPeriodically(uint32_t time_ms) {
     m_isRunOnce = false;
@@ -119,7 +149,7 @@ void Scheduler::startTimer(uint32_t time_ms) {
     m_previousTime_ms = millis();
 }
 
-void Scheduler::clearTimer() {
+void Scheduler::stop() {
     m_timer_ms = 0;
 }
 

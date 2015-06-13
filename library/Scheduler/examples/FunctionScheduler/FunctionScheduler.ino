@@ -24,56 +24,31 @@
  *
  */
 
-#include "Light.h"
-#include "Constants.h"
-#include <Arduino.h>
+#include <Scheduler.h>
 
 
+int ledPin = 13;
+boolean isOn = false;
 
-Light::Light(uint8_t pin) :
-        m_ledPin(pin),
-        m_pulseScheduler(this, &Light::toggle),
-        m_isLedOn(false)
-{
-    pinMode(m_ledPin, OUTPUT);
-    off();
+
+// Scheduler that accepts static function pointer as callback parameter
+FunctionScheduler scheduler;
+
+void toggleLed() {
+  isOn = !isOn;
+  digitalWrite(ledPin, isOn?HIGH:LOW);
+}
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
+
+  // call function "toggleLed" every 500 milliseconds  
+  scheduler.set(toggleLed).runPeriodically(500);
 }
 
 
-void Light::on() {
-    m_pulseScheduler.stop();
-    setLedOn();
+void loop() {
+  // run scheduler timing checks
+  Scheduler::run();
 }
-
-
-void Light::off() {
-    m_pulseScheduler.stop();
-    setLedOff();
-}
-
-
-void Light::pulse() {
-    toggle();
-    m_pulseScheduler.runPeriodically(LIGHT_PULSE_TOGGLE_PERIOD_ms);
-}
-
-
-void Light::toggle() {
-    if (m_isLedOn) {
-        setLedOff();
-    } else {
-        setLedOn();
-    }
-}
-
-
-void Light::setLedOn() {
-    m_isLedOn = true;
-    digitalWrite(m_ledPin, HIGH);
-}
-
-void Light::setLedOff() {
-    m_isLedOn = false;
-    digitalWrite(m_ledPin, LOW);
-}
-
